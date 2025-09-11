@@ -93,7 +93,7 @@ onUnmounted(() => {
   --header-height: 8vh;
   --wheel-img-max-width: 88vw;
   --wheel-stop-top-offset: 1vh; /* Vertical offset of wheel stop from screen top */
-  --content-top-padding: 15vh; /* Pushes content down from the top */
+  --content-top-padding: 20vh; /* Pushes content down from the top */
   --footer-top-margin: 0vh; /* Space between parking lot and footer */
   
   /* --- DIALS FOR THE FADE EFFECT --- */
@@ -227,8 +227,29 @@ onUnmounted(() => {
 }
 
 @media (max-width: 780px) {
+  .site-container {
+    --content-top-padding: 15vh;
+  }
   .fixed-wheel img {
     transform: rotate(-0.5deg) scaleY(1.6);
+    transform-origin: top center;
+  }
+}
+@media (max-width: 660px) {
+  .site-container {
+    --content-top-padding: 10vh;
+  }
+  .fixed-wheel img {
+    transform: rotate(-0.5deg) scaleY(1.6);
+    transform-origin: top center;
+  }
+}
+@media (max-width: 460px) {
+  .site-container {
+    --content-top-padding: 10vh;
+  }
+  .fixed-wheel img {
+    transform: rotate(-0.5deg) scaleY(1.9);
     transform-origin: top center;
   }
 }

@@ -65,7 +65,7 @@ h2 {
 /* --------------NAVBAR----------------- */
 .top-nav {
   display: flex;
-  padding-top: 1%;
+  padding-top: 5%;
   align-items: flex-end;
   justify-content: center;
   gap: clamp(0.5rem, 2vw, 2rem);
@@ -117,11 +117,8 @@ h2 {
 }
 
 @media (max-width: 980px) {
-  .top-nav {
-  padding-top: 0%;
-}
 .top-nav a {
-  padding: 0.5rem 0;
+  padding-top: 2%;
   margin: 0 1rem;
 }
   .logo-link {
@@ -138,6 +135,9 @@ h2 {
 }
 
 @media (max-width: 650px) {
+  .top-nav a {
+  padding-top: 9%;
+}
   .logo-link {
     font-size: clamp(2.5rem, 10vw, 3.2rem) !important;
     transform: translateY(0vh);
@@ -146,6 +146,9 @@ h2 {
 }
 
 @media (max-width: 460px) {
+  .top-nav a {
+  padding-top: 4%;
+}
   .logo-link {
     font-size: clamp(2.5rem, 10vw, 3.2rem) !important;
     transform: translateY(1vh);
