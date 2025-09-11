@@ -62,13 +62,14 @@ h2 {
   text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
 }
 
-/* NAVBAR */
+/* --------------NAVBAR----------------- */
 .top-nav {
   display: flex;
   padding-top: 1%;
-  align-items: flex-end; /* anchor all items to the bottom */
+  align-items: flex-end;
   justify-content: center;
   gap: clamp(0.5rem, 2vw, 2rem);
+  align-items: center;
 }
 
 .top-nav a {
@@ -83,13 +84,13 @@ h2 {
   border-bottom: 3px solid transparent;
   transition: border-bottom 0.4s ease-out, color 0.3s ease;
   color: rgb(99, 151, 101) !important;
-  font-size: clamp(0.2rem, 2.5vw, 2rem); /* responsive size */
+  font-size: clamp(0.2rem, 2.5vw, 2rem);
   cursor: pointer;
 }
 
 .top-nav a:not(.logo-link) {
   font-size: clamp(0.2rem, 2.5vw, 2rem);
-  transform: translateY(0.6rem); /* dial: pushes them lower */
+  transform: translateY(0.6rem); /* topnav text lower */
 }
 
 .top-nav a:hover,
@@ -99,10 +100,10 @@ h2 {
 
 .logo-link {
   font-family: 'New Rocker', sans-serif !important;
-  font-size: clamp(2.5rem, 6vw, 5rem) !important;
+  font-size: clamp(3.5rem, 6vw, 5rem) !important;
   font-weight: 700 !important;
   text-shadow: -4px 2px 8px rgba(0, 0, 0, 0.7);
-  transform: translateY(4.5vh); /* stays in natural position */
+  transform: translateY(1vh);
   cursor: pointer;
 }
 
@@ -112,15 +113,42 @@ h2 {
   padding: 2rem 0 0 0;
   color: rgb(99, 151, 101);
   text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-  margin-top: -5vh; /* adjust to sit at bottom of background image */
+  margin-top: -5vh; /* bottom of background image */
 }
 
-@media (max-width: 820px) {
-  .top-nav a:not(.logo-link) {
-    display: none;
-  }
+@media (max-width: 980px) {
+  .top-nav {
+  padding-top: 0%;
+}
+.top-nav a {
+  padding: 0.5rem 0;
+  margin: 0 1rem;
+}
   .logo-link {
-    font-size: clamp(2.5rem, 10vw, 3.2rem);
+    transform: translateY(0vh);
+  }
+}
+
+@media (max-width: 780px) {
+  .logo-link {
+    font-size: clamp(3rem, 5rem, 6rem) !important;
     transform: translateY(2vh);
+    letter-spacing:8px !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .logo-link {
+    font-size: clamp(2.5rem, 10vw, 3.2rem) !important;
+    transform: translateY(0vh);
+    letter-spacing:8px !important;
+  }
+}
+
+@media (max-width: 460px) {
+  .logo-link {
+    font-size: clamp(2.5rem, 10vw, 3.2rem) !important;
+    transform: translateY(1vh);
+    letter-spacing:9px !important;
   }
 }

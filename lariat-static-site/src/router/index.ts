@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import SiteContainer from '../views/SiteContainer.vue' // Adjust path if needed
-import MerchItemDetail from '../views/MerchItemDetail.vue' // Keep this
-import EPK from '../views/EPK.vue' // Keep this
+import SiteContainer from '../views/SiteContainer.vue' 
+import MerchItemDetail from '../views/MerchItemDetail.vue'
+import EPK from '../views/EPK.vue' 
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: SiteContainer // This is the big change
+    component: SiteContainer
   },
   {
     path: '/merch/:id',
@@ -19,7 +19,6 @@ const routes = [
     name: 'EPK',
     component: EPK
   }
-  // Remove the old /shows, /music, /merch routes
 ]
 
 const router = createRouter({

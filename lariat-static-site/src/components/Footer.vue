@@ -35,7 +35,7 @@ footer {
   background: #222;
   color: #fff;
   text-align: center;
-  flex-shrink: 0; /* Prevents footer from shrinking */
+  flex-shrink: 0;
 }
 footer a {
   color: #fff;

@@ -11,12 +11,12 @@ export default defineComponent({
 </script>
 
 <style>
-/* Global Reset */
+/* !!!!!!!!!Global Reset!!!!!!!!!!!! */
 html,
 body {
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* Prevents any scrollbars on the body itself */
+  overflow-clip-box: hidden;
   background-color: #111;
   color: #fff;
 }

@@ -63,7 +63,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-// Import the centralized data function instead of all the images
+// Import the centralized data function
 import { getAllMerch } from '@/services/merchService';
 
 interface MerchItem {
@@ -79,7 +79,7 @@ interface MerchItem {
 
 const selectedType = ref("");
 const sortOrder = ref("asc");
-// Get the items from our service instead of the long, local list
+// Grab Items: probably gonna rework all this, check square vs bandcamp for hosting
 const merchItems = ref<MerchItem[]>(getAllMerch());
 
 const filteredAndSortedItems = computed(() => {

@@ -1,6 +1,3 @@
-// This file will hold all your merchandise data, making it easy to manage.
-
-// Define the structure of a merch item
 export interface MerchItem {
   id: number;
   name: string;
@@ -14,7 +11,7 @@ export interface MerchItem {
   new_price?: number;
 }
 
-// Import all your images here
+// Images
 import DragonSticker from "@/assets/YOTDSUMMER.png";
 import DragonStickerFall from "@/assets/YOTDFALL.png";
 import DragonStickerSpring from "@/assets/YOTDSPRING.png";
@@ -30,7 +27,7 @@ import DragonEnamelPin from "@/assets/placeholder.jpg";
 import LariatKeychain from "@/assets/placeholder.jpg";
 import YearoftheDragon3CD from "@/assets/YOTD3.jpg";
 
-// The master list of all merchandise
+// Merchandise
 const merchItems: MerchItem[] = [
   { id: 1, name: "Dragon Sticker (Summer)", type: "sticker", price: 3, image: DragonSticker, description: "Our first ever sticker. These are UV coated vinyl.", sizes: [], colors: [] },
   { id: 2, name: "Dragon Sticker (Fall)", type: "sticker", price: 3, image: DragonStickerFall, description: "Our first ever sticker. These are UV coated vinyl.", sizes: [], colors: [] },
@@ -48,8 +45,6 @@ const merchItems: MerchItem[] = [
   { id: 14, name: "Year of the Dragon 3 CD", type: "music", price: 10, image: YearoftheDragon3CD, description: "Our full-length debut album on physical CD.", sizes: [], colors: [] },
 ];
 
-// Function to get all merch items
-export const getAllMerch = () => merchItems;
 
-// Function to find a single merch item by its ID
+export const getAllMerch = () => merchItems;
 export const getMerchById = (id: number) => merchItems.find(item => item.id === id);

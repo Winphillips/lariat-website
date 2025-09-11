@@ -63,7 +63,6 @@ import { ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import TopNav from "@/components/TopNav.vue";
 import Footer from "@/components/Footer.vue";
-// Import our new centralized data functions
 import { getMerchById, type MerchItem } from '@/services/merchService';
 
 const route = useRoute();
@@ -78,14 +77,13 @@ const product = computed(() => {
   return getMerchById(itemId);
 });
 
-// A computed property to find the hex code for the selected color
+// Color Hex
 const selectedColorHex = computed(() => {
   if (!product.value?.colors) return '';
   const color = product.value.colors.find(c => c.name === selectedColor.value);
   return color ? color.hex : '';
 });
 
-// This "watches" the product and sets the default size/color once it loads
 watch(product, (newProduct) => {
   if (newProduct) {
     if (newProduct.sizes?.length) {
@@ -95,11 +93,10 @@ watch(product, (newProduct) => {
       selectedColor.value = newProduct.colors[0].name;
     }
   }
-}, { immediate: true }); // immediate: true runs this check as soon as the component is created
+}, { immediate: true });
 </script>
 
 <style scoped>
-/* Your existing CSS from the old component is perfect and can be copied here. */
 #item-detail {
   display: flex;
   justify-content: center;

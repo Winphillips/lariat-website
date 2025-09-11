@@ -120,8 +120,8 @@ onUnmounted(() => {
   top: var(--wheel-stop-top-offset);
   left: 50%;
   transform: translateX(-50%);
-  width: var(--wheel-img-max-width);
-  max-width: 88vw;
+  width: auto;
+  max-width: 90vw;
   height: auto;
   z-index: 5;
   pointer-events: none;
@@ -129,7 +129,7 @@ onUnmounted(() => {
 
 .fixed-wheel img {
   max-height: 100%;
-  max-width: var(--wheel-img-max-width);
+  max-width: 90vw;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -146,7 +146,7 @@ onUnmounted(() => {
   background-image: url("@/assets/parkinglot.png");
   background-size: 400vw 100%;
   background-position: 0 0;
-  /* CHANGE: This margin pushes the footer down */
+  /* adjusts the footer down */
   margin-bottom: var(--footer-top-margin);
 }
 
@@ -161,7 +161,7 @@ onUnmounted(() => {
   overflow-y: auto;
   position: relative;
   
-  /* CHANGE: Simplified, reliable fade mask */
+  /* TODO: Fade for wheel stop later */
   -webkit-mask-image: linear-gradient(to bottom,
     transparent var(--fade-starts-at),
     black var(--fade-ends-at),
@@ -224,5 +224,12 @@ onUnmounted(() => {
 
 .arrow.right {
   right: 20px;
+}
+
+@media (max-width: 780px) {
+  .fixed-wheel img {
+    transform: rotate(-0.5deg) scaleY(1.6);
+    transform-origin: top center;
+  }
 }
 </style>
