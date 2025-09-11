@@ -1,32 +1,30 @@
-import { createRouter, createWebHistory } from "vue-router";
-import type { RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router'
+import SiteContainer from '../views/SiteContainer.vue' // Adjust path if needed
+import MerchItemDetail from '../views/MerchItemDetail.vue' // Keep this
+import EPK from '../views/EPK.vue' // Keep this
 
-import LandingPage from "@/views/LandingPage.vue";
-import ShowsPage from "@/views/ShowsPage.vue";
-import MusicPage from "@/views/MusicPage.vue";
-import EPKPage from "@/views/EPK.vue";
-import MerchItemDetail from '@/views/MerchItemDetail.vue';
-
-const routes: Array<RouteRecordRaw> = [
-  { path: "/", name: "Landing", component: LandingPage },
-  { path: "/shows", name: "Shows", component: ShowsPage },
-  { path: "/music", name: "Music", component: MusicPage },
-  { path: "/epk", name: "EPK", component: EPKPage },
+const routes = [
   {
-    path: '/merch',
-    name: 'Merch',
-    component: () => import('@/views/MerchPage.vue'),
+    path: '/',
+    name: 'Home',
+    component: SiteContainer // This is the big change
   },
   {
     path: '/merch/:id',
     name: 'MerchItemDetail',
-    component: MerchItemDetail,
+    component: MerchItemDetail
   },
-];
+  {
+    path: '/epk',
+    name: 'EPK',
+    component: EPK
+  }
+  // Remove the old /shows, /music, /merch routes
+]
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes,
-});
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes
+})
 
-export default router;
+export default router

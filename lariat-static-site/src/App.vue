@@ -1,9 +1,23 @@
 <template>
-  <router-view></router-view>
+  <router-view />
 </template>
 
 <script lang="ts">
-export default {
-  name: "App",
-};
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: 'App',
+});
 </script>
+
+<style>
+/* Global Reset */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevents any scrollbars on the body itself */
+  background-color: #111;
+  color: #fff;
+}
+</style>

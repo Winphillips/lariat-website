@@ -2,21 +2,32 @@
   <div class="epk-page">
     <header>
       <router-link to="/" class="logo-link">
-        <img src="@/assets/logo.png" alt="Band Logo" id="logo" />
         <span class="logo-text">LARIAT</span>
       </router-link>
-      <TopNav />
+      <!-- <TopNav /> -->
     </header>
+
+    <section>
+      <div class="page-section">
+        <div class="page-content landing-page">
+          <ImageGallery />
+        </div>
+      </div>
+    </section>
 
     <main class="container">
       <section id="bio">
         <h1>Bio</h1>
-        <h3>We are a band from Fayetteville, AR. We've been making music together for many years, but just became an active band 
-            earlier this year. Trip and Win are brothers, Coleman is our cousin, but is more so a brother, and we adopted 
-            Andrew from the Ozark National Forest, and he quickly became like a brother. As boys in the woods with unfiltered 
-            internet access, Lariat merges folk rock, alt pop, and electronic indie into a fun quilt of sound. We released an 
-            LP at the end of January!</h3>
-            <h3>“So if things never get better, at least I’m by your side. I hope we live forever, or die at the same time.”</h3>
+        <h3>We are a band from Fayetteville, AR. We've been making music together for many years, but just became an
+          active band
+          earlier this year. Trip and Win are brothers, Coleman is our cousin, but is more so a brother, and we adopted
+          Andrew from the Ozark National Forest, and he quickly became like a brother. As boys in the woods with
+          unfiltered
+          internet access, Lariat merges folk rock, alt pop, and electronic indie into a fun quilt of sound. We released
+          an
+          LP at the end of January!</h3>
+        <h3>“So if things never get better, at least I’m by your side. I hope we live forever, or die at the same time.”
+        </h3>
       </section>
 
       <section id="highlights">
@@ -36,7 +47,7 @@
         </ul>
       </section>
 
-      </main>
+    </main>
   </div>
 </template>
 
