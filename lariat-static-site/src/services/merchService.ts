@@ -26,6 +26,11 @@ import DragonHoodie from "@/assets/placeholder.jpg";
 import DragonEnamelPin from "@/assets/placeholder.jpg";
 import LariatKeychain from "@/assets/placeholder.jpg";
 import YearoftheDragon3CD from "@/assets/YOTD3.jpg";
+import DragonCanvasBag from "@/assets/placeholder.jpg";
+import DragonPatch from "@/assets/placeholder.jpg";
+import DragonButton from "@/assets/placeholder.jpg";
+import TemporaryTattooSheet from "@/assets/placeholder.jpg";
+
 
 // Merchandise
 const merchItems: MerchItem[] = [
@@ -43,6 +48,10 @@ const merchItems: MerchItem[] = [
   { id: 12, name: "Lariat Dragon Enamel Pin", type: "accessory", price: 6, image: DragonEnamelPin, description: "A high-quality enamel pin to accessorize your jacket or backpack.", sizes: [], colors: [] },
   { id: 13, name: "Lariat Keychain", type: "accessory", price: 8, image: LariatKeychain, description: "A simple, yet stylish keychain to keep your keys organized.", sizes: [], colors: [] },
   { id: 14, name: "Year of the Dragon 3 CD", type: "music", price: 10, image: YearoftheDragon3CD, description: "Our full-length debut album on physical CD.", sizes: [], colors: [] },
+  { id: 15, name: "Dragon Canvas Bag", type: "accessory", price: 15, image: DragonCanvasBag, description: "A durable canvas tote bag featuring the Lariat Dragon graphic.", sizes: [], colors: [] },
+  { id: 16, name: "Dragon Patch", type: "accessory", price: 7, image: DragonPatch, description: "An embroidered patch of the Lariat Dragon, perfect for jackets or bags.", sizes: [], colors: [] },
+  { id: 17, name: "Dragon Button", type: "accessory", price: 3, image: DragonButton, description: "A classic pin-back button with the Lariat Dragon graphic.", sizes: [], colors: [] },
+  { id: 18, name: "Temporary Tattoo Sheet", type: "accessory", price: 10, image: TemporaryTattooSheet, description: "A sheet of various temporary tattoos featuring band logos and art.", sizes: [], colors: [] },
 ];
 
 

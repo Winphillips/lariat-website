@@ -56,3 +56,4 @@ import ImageGallery from "@/components/ImageGallery.vue";
   }
 }
 </style>
+

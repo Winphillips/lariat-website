@@ -9,13 +9,13 @@
         <div class="show-date">{{ show.date }}</div>
         <div class="show-venue">
           <a
-            :href="`http://googleusercontent.com/maps.google.com/22{encodeURIComponent(
-              show.coords
-            )}`"
-            target="_blank"
-            class="venue-link"
-            rel="noopener noreferrer"
-          >
+  :href="`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    show.coords
+  )}`"
+  target="_blank"
+  class="venue-link"
+  rel="noopener noreferrer"
+>
             {{ show.venue }}
             <svg
               class="waypoint-icon"
