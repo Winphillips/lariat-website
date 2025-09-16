@@ -138,7 +138,37 @@ const navigateAndClose = (index: number) => {
   .hamburger-button {
     width: 20vw;
     height: 20vh;
-    margin-top: 3vh;
+    margin-top: 2vh;
+    margin-right: 3vw;
+    align-items: right;
+    display: inline-block;
+  }
+}
+
+@media (max-width: 680px) {
+  .desktop-link {
+    display: none;
+  }
+
+  .hamburger-button {
+    width: 20vw;
+    height: 20vh;
+    margin-top: -1vh;
+    margin-right: 3vw;
+    align-items: right;
+    display: inline-block;
+  }
+}
+
+@media (max-width: 580px) {
+  .desktop-link {
+    display: none;
+  }
+
+  .hamburger-button {
+    width: 20vw;
+    height: 20vh;
+    margin-top: -3vh;
     margin-right: 3vw;
     align-items: right;
     display: inline-block;
@@ -153,7 +183,7 @@ const navigateAndClose = (index: number) => {
   .hamburger-button {
     width: 16vw;
     height: 20vh;
-    margin-top: 2vh;
+    margin-top: -4vh;
     display: inline-block;
   }
 }

@@ -206,7 +206,7 @@ onUnmounted(() => {
   width: 90vw;
   height: auto;
   object-fit: contain;
-  transform: rotate(-0.5deg);
+  transform: rotate(-0.5deg) scaleY(1.1) translateY(-2vh);
   pointer-events: none;
 }
 
@@ -221,7 +221,7 @@ onUnmounted(() => {
 }
 
 .ws-3 {
-  transform: translateY(-4vh); /* ----DIAL: WHEEL STOP 3 Y-AXIS OFFSET */
+  transform: translateY(-3vh); /* ----DIAL: WHEEL STOP 3 Y-AXIS OFFSET */
 }
 
 /* Right of wheel stop 3 clickable */
@@ -231,7 +231,7 @@ onUnmounted(() => {
   left: 80%;
   width: 20%;
   height: 100%;
-  z-index: 5;
+  z-index: 1;
   pointer-events: auto;
   cursor: pointer;
   background: transparent;
@@ -314,24 +314,25 @@ onUnmounted(() => {
 .arrow.left { left: 20px; }
 .arrow.right { right: 20px; }
 
+
 @media (max-width: 780px) {
   .site-container { --content-top-padding: 15vh; }
   .wheel-stop-item img {
-    transform: rotate(-0.5deg) scaleY(1.6);
+    transform: rotate(-0.5deg) scaleY(1.7) translateY(-1vh);
     transform-origin: top center;
   }
 }
 @media (max-width: 660px) {
   .site-container { --content-top-padding: 10vh; }
    .wheel-stop-item img {
-    transform: rotate(-0.5deg) scaleY(1.6);
+    transform: rotate(-0.5deg) scaleY(1.8) translateY(-1vh);
     transform-origin: top center;
   }
 }
 @media (max-width: 460px) {
   .site-container { --content-top-padding: 10vh; }
    .wheel-stop-item img {
-    transform: rotate(-0.5deg) scaleY(1.9);
+    transform: rotate(-0.5deg) scaleY(1.9) translateY(-1vh);
     transform-origin: top center;
   }
 }

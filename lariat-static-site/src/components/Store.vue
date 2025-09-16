@@ -1,190 +1,111 @@
 <template>
-  <div class="page-content merch-page">
-    <h1>Store</h1>
-    <div class="legend">
-      <span class="handmade-icon" role="img" aria-label="Handmade Icon"
-        >✋</span
-      >
-      = Handmade (Each piece is 1 of 1)
-    </div>
-    <div class="controls">
-      <div class="control-group">
-        <span class="control-label">Filter by type:</span>
-        <select v-model="selectedType" class="modern-select">
-          <option value="">All</option>
-          <option value="sticker">Stickers</option>
-          <option value="apparel">Apparel</option>
-          <option value="accessory">Accessories</option>
-          <option value="music">Music</option>
-        </select>
-      </div>
-      <div class="control-group">
-        <span class="control-label">Sort by price:</span>
-        <select v-model="sortOrder" class="modern-select">
-          <option value="asc">Low to High</option>
-          <option value="desc">High to Low</option>
-        </select>
-      </div>
-    </div>
+  <div class="store-page">
+    <h1>Store/Under Construction</h1>
+    <p class="subtitle">All merch will be sold through bandcamp or at shows</p>
+
     <div class="merch-grid">
-      <router-link
-        v-for="item in filteredAndSortedItems"
-        :key="item.id"
-        :to="{ name: 'MerchItemDetail', params: { id: item.id } }"
-        class="merch-item-link"
-      >
-        <div class="merch-item">
-          <img :src="item.image" :alt="item.name" />
-          <h3>
-            {{ item.name }}
-            <span
-              v-if="item.isHandmade"
-              class="handmade-icon"
-              role="img"
-              aria-label="Handmade"
-              >✋</span
-            >
-          </h3>
-          <p>${{ item.price }}</p>
-          <div v-if="item.colors && item.colors.length" class="color-options">
-            <span
-              v-for="color in item.colors"
-              :key="color.name"
-              class="color-circle"
-              :style="{ backgroundColor: color.hex }"
-              :title="color.name"
-            ></span>
-          </div>
+      <div v-for="item in merchItems" :key="item.id" class="merch-card">
+        <img :src="item.image" :alt="item.name" class="merch-image" />
+
+        <div class="merch-info">
+          <h2 class="merch-title">{{ item.name }}</h2>
+          <p class="merch-price">${{ item.price }}</p>
+          <p class="merch-description">{{ item.description }}</p>
+
+          <a
+            class="buy-button"
+            :href="item.bandcampUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Buy on Bandcamp<i class="fab fa-bandcamp"></i>
+          </a>
         </div>
-      </router-link>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-// Import the centralized data function
-import { getAllMerch } from '@/services/merchService';
+import { getAllMerch } from "@/services/merchService";
 
-interface MerchItem {
-  id: number;
-  name: string;
-  type: string;
-  price: number;
-  image: string;
-  isHandmade?: boolean;
-  sizes?: string[];
-  colors?: { name: string; hex: string }[];
-}
-
-const selectedType = ref("");
-const sortOrder = ref("asc");
-// Grab Items: probably gonna rework all this, check square vs bandcamp for hosting
-const merchItems = ref<MerchItem[]>(getAllMerch());
-
-const filteredAndSortedItems = computed(() => {
-  let items = merchItems.value;
-  if (selectedType.value) {
-    items = items.filter((item) => item.type === selectedType.value);
-  }
-  return [...items].sort((a, b) =>
-    sortOrder.value === "asc" ? a.price - b.price : b.price - a.price
-  );
-});
+const merchItems = getAllMerch();
 </script>
 
 <style scoped>
-.page-content {
-  width: 100%;
-  max-width: 1000px;
+.store-page {
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  box-sizing: border-box;
+  text-align: center;
 }
 
-.merch-page {
-  text-align: center;
-}
-.legend {
-  font-size: 0.9rem;
+.subtitle {
   margin-bottom: 2rem;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.8);
 }
-.controls {
-  margin-bottom: 2.5rem;
-  display: flex;
-  gap: 2rem;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.control-group {
-  display: flex;
-  align-items: center;
-}
-.control-label {
-  font-size: 1rem;
-  font-weight: bold;
-  margin-right: 0.5rem;
-}
-.modern-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: transparent;
-  border: 2px solid rgb(99, 151, 101);
-  color: rgb(99, 151, 101);
-  text-shadow: none;
-  padding: 0.25rem 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s ease;
-}
+
 .merch-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
-  justify-content: center;
 }
-.merch-item {
-  width: 200px;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 1rem;
+
+.merch-card {
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
-  text-align: center;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease;
 }
-.merch-item-link {
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s ease-in-out;
-}
-.merch-item-link:hover {
+.merch-card:hover {
   transform: translateY(-5px);
 }
-.merch-item img {
+
+.merch-image {
   width: 100%;
-  border-radius: 8px;
-  aspect-ratio: 1 / 1;
+  height: 250px;
   object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
 }
-.merch-item h3 {
-  margin: 0.75rem 0 0.2rem;
-  font-size: 1.1rem;
+
+.merch-info {
+  text-align: center;
 }
-.merch-item p {
+
+.merch-title {
+  font-size: 1.25rem;
+  margin: 0.5rem 0;
+}
+
+.merch-price {
   font-size: 1rem;
   font-weight: bold;
+  margin: 0.25rem 0 0.5rem;
 }
-.color-options {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+
+.merch-description {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1rem;
 }
-.color-circle {
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+
+.buy-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #629aa9;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+.buy-button:hover {
+  background-color: #4f7d88;
 }
 </style>

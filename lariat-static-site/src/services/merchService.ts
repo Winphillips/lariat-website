@@ -9,9 +9,9 @@ export interface MerchItem {
   sizes?: string[];
   colors?: { name: string; hex: string }[];
   new_price?: number;
+  bandcampUrl?: string;
 }
 
-// Images
 import DragonSticker from "@/assets/YOTDSUMMER.png";
 import DragonStickerFall from "@/assets/YOTDFALL.png";
 import DragonStickerSpring from "@/assets/YOTDSPRING.png";
@@ -31,29 +31,252 @@ import DragonPatch from "@/assets/placeholder.jpg";
 import DragonButton from "@/assets/placeholder.jpg";
 import TemporaryTattooSheet from "@/assets/placeholder.jpg";
 
-
-// Merchandise
+// TODO: Make and Add BC links here
 const merchItems: MerchItem[] = [
-  { id: 1, name: "Dragon Sticker (Summer)", type: "sticker", price: 3, image: DragonSticker, description: "Our first ever sticker. These are UV coated vinyl.", sizes: [], colors: [] },
-  { id: 2, name: "Dragon Sticker (Fall)", type: "sticker", price: 3, image: DragonStickerFall, description: "Our first ever sticker. These are UV coated vinyl.", sizes: [], colors: [] },
-  { id: 3, name: "Dragon Sticker (Spring)", type: "sticker", price: 3, image: DragonStickerSpring, description: "Our first ever sticker. These are UV coated vinyl.", sizes: [], colors: [] },
-  { id: 4, name: "Dragon Sticker (Winter)", type: "sticker", price: 3, image: DragonStickerWinter, description: "Our first ever sticker. These are UV coated vinyl.", sizes: [], colors: [] },
-  { id: 5, name: "Sticker Pack (All 4)", type: "sticker", price: 9, image: StickerPack, description: "Get all four seasonal Dragon stickers for a discounted price!", sizes: [], colors: [] },
-  { id: 6, name: "Velociraptor Shirt", type: "apparel", price: 25, new_price: 30, isHandmade: true, image: VelociraptorShirt, description: "A one-of-a-kind, handmade shirt featuring a unique Velociraptor graphic.", sizes: ["S", "M", "L", "XL"], colors: [{name: "Black", hex: "#000000"}, {name: "Blue", hex: "#0000FF"}, {name: "Green", hex: "#008000"}, {name: "Pink", hex: "#FFC0CB"}, {name: "Orange", hex: "#FFA500"}, {name: "Brown", hex: "#A52A2A"}, {name: "Dark Green", hex: "#006400"}, {name: "Light Green", hex: "#90EE90"}, {name: "True Blue", hex: "#0000FF"}, {name: "Navy Blue", hex: "#000080"}] },
-  { id: 7, name: "Velociraptor Sweatpants", type: "apparel", price: 30, isHandmade: true, image: VelociraptorSweatpants, description: "Comfortable and stylish sweatpants with a custom handmade Velociraptor design.", sizes: ["S", "M", "L", "XL"], colors: [{name: "Black", hex: "#000000"}, {name: "Grey", hex: "#808080"}, {name: "Blue", hex: "#0000FF"}, {name: "Teal", hex: "#008080"}] },
-  { id: 8, name: "Velociraptor Longsleeve", type: "apparel", price: 25, isHandmade: true, image: VelociraptorLongsleeve, description: "A custom longsleeve shirt with a handmade Velociraptor graphic.", sizes: ["S", "M", "L", "XL"], colors: [{name: "Black", hex: "#000000"}, {name: "Blue", hex: "#0000FF"}, {name: "Green", hex: "#008000"}, {name: "Pink", hex: "#FFC0CB"}, {name: "Orange", hex: "#FFA500"}, {name: "Brown", hex: "#A52A2A"}, {name: "Dark Green", hex: "#006400"}, {name: "Light Green", hex: "#90EE90"}, {name: "True Blue", hex: "#0000FF"}, {name: "Navy Blue", hex: "#000080"}] },
-  { id: 9, name: "Velociraptor Hoodie", type: "apparel", price: 35, isHandmade: true, image: VelociraptorHoodie, description: "A warm hoodie with a unique, handmade Velociraptor graphic.", sizes: ["S", "M", "L", "XL"], colors: [{name: "Black", hex: "#000000"}, {name: "Blue", hex: "#0000FF"}, {name: "Green", hex: "#008000"}, {name: "Pink", hex: "#FFC0CB"}, {name: "Orange", hex: "#FFA500"}, {name: "Brown", hex: "#A52A2A"}, {name: "Dark Green", hex: "#006400"}, {name: "Light Green", hex: "#90EE90"}, {name: "True Blue", hex: "#0000FF"}, {name: "Navy Blue", hex: "#000080"}] },
-  { id: 10, name: "Dragon Shirt", type: "apparel", price: 20, new_price: 25, image: DragonShirt, description: "Our custom band tee with the Lariat Dragon graphic.", sizes: ["S", "M", "L", "XL"], colors: [] },
-  { id: 11, name: "Dragon Hoodie", type: "apparel", price: 45, image: DragonHoodie, description: "A warm hoodie with a custom band graphic.", sizes: ["S", "M", "L", "XL"], colors: [] },
-  { id: 12, name: "Lariat Dragon Enamel Pin", type: "accessory", price: 6, image: DragonEnamelPin, description: "A high-quality enamel pin to accessorize your jacket or backpack.", sizes: [], colors: [] },
-  { id: 13, name: "Lariat Keychain", type: "accessory", price: 8, image: LariatKeychain, description: "A simple, yet stylish keychain to keep your keys organized.", sizes: [], colors: [] },
-  { id: 14, name: "Year of the Dragon 3 CD", type: "music", price: 10, image: YearoftheDragon3CD, description: "Our full-length debut album on physical CD.", sizes: [], colors: [] },
-  { id: 15, name: "Dragon Canvas Bag", type: "accessory", price: 15, image: DragonCanvasBag, description: "A durable canvas tote bag featuring the Lariat Dragon graphic.", sizes: [], colors: [] },
-  { id: 16, name: "Dragon Patch", type: "accessory", price: 7, image: DragonPatch, description: "An embroidered patch of the Lariat Dragon, perfect for jackets or bags.", sizes: [], colors: [] },
-  { id: 17, name: "Dragon Button", type: "accessory", price: 3, image: DragonButton, description: "A classic pin-back button with the Lariat Dragon graphic.", sizes: [], colors: [] },
-  { id: 18, name: "Temporary Tattoo Sheet", type: "accessory", price: 10, image: TemporaryTattooSheet, description: "A sheet of various temporary tattoos featuring band logos and art.", sizes: [], colors: [] },
+  {
+    id: 1,
+    name: "Dragon Sticker (Summer)",
+    type: "sticker",
+    price: 3,
+    image: DragonSticker,
+    description: "Our first ever sticker. These are UV coated vinyl.",
+    sizes: [],
+    colors: [],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/dragon-sticker-summer"
+  },
+  {
+    id: 2,
+    name: "Dragon Sticker (Fall)",
+    type: "sticker",
+    price: 3,
+    image: DragonStickerFall,
+    description: "Our first ever sticker. These are UV coated vinyl.",
+    sizes: [],
+    colors: [],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/dragon-sticker-fall"
+  },
+  {
+    id: 3,
+    name: "Dragon Sticker (Spring)",
+    type: "sticker",
+    price: 3,
+    image: DragonStickerSpring,
+    description: "Our first ever sticker. These are UV coated vinyl.",
+    sizes: [],
+    colors: [],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/dragon-sticker-spring"
+  },
+  {
+    id: 4,
+    name: "Dragon Sticker (Winter)",
+    type: "sticker",
+    price: 3,
+    image: DragonStickerWinter,
+    description: "Our first ever sticker. These are UV coated vinyl.",
+    sizes: [],
+    colors: [],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/dragon-sticker-winter"
+  },
+  {
+    id: 5,
+    name: "Sticker Pack (All 4)",
+    type: "sticker",
+    price: 9,
+    image: StickerPack,
+    description: "Get all four seasonal Dragon stickers for a discounted price!",
+    sizes: [],
+    colors: [],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/sticker-pack-all-4"
+  },
+  {
+    id: 6,
+    name: "Velociraptor Shirt",
+    type: "apparel",
+    price: 25,
+    new_price: 30,
+    isHandmade: true,
+    image: VelociraptorShirt,
+    description: "A one-of-a-kind, handmade shirt featuring a unique Velociraptor graphic.",
+    sizes: ["S", "M", "L", "XL"],
+    colors: [
+      { name: "Black", hex: "#000000" },
+      { name: "Blue", hex: "#0000FF" },
+      { name: "Green", hex: "#008000" },
+      { name: "Pink", hex: "#FFC0CB" },
+      { name: "Orange", hex: "#FFA500" },
+      { name: "Brown", hex: "#A52A2A" },
+      { name: "Dark Green", hex: "#006400" },
+      { name: "Light Green", hex: "#90EE90" },
+      { name: "True Blue", hex: "#0000FF" },
+      { name: "Navy Blue", hex: "#000080" }
+    ],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/velociraptor-shirt"
+  },
+  {
+    id: 7,
+    name: "Velociraptor Sweatpants",
+    type: "apparel",
+    price: 30,
+    isHandmade: true,
+    image: VelociraptorSweatpants,
+    description: "Comfortable and stylish sweatpants with a custom handmade Velociraptor design.",
+    sizes: ["S", "M", "L", "XL"],
+    colors: [
+      { name: "Black", hex: "#000000" },
+      { name: "Grey", hex: "#808080" },
+      { name: "Blue", hex: "#0000FF" },
+      { name: "Teal", hex: "#008080" }
+    ],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/velociraptor-sweatpants"
+  },
+  {
+    id: 8,
+    name: "Velociraptor Longsleeve",
+    type: "apparel",
+    price: 25,
+    isHandmade: true,
+    image: VelociraptorLongsleeve,
+    description: "A custom longsleeve shirt with a handmade Velociraptor graphic.",
+    sizes: ["S", "M", "L", "XL"],
+    colors: [
+      { name: "Black", hex: "#000000" },
+      { name: "Blue", hex: "#0000FF" },
+      { name: "Green", hex: "#008000" },
+      { name: "Pink", hex: "#FFC0CB" },
+      { name: "Orange", hex: "#FFA500" },
+      { name: "Brown", hex: "#A52A2A" },
+      { name: "Dark Green", hex: "#006400" },
+      { name: "Light Green", hex: "#90EE90" },
+      { name: "True Blue", hex: "#0000FF" },
+      { name: "Navy Blue", hex: "#000080" }
+    ],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/velociraptor-longsleeve"
+  },
+  {
+    id: 9,
+    name: "Velociraptor Hoodie",
+    type: "apparel",
+    price: 35,
+    isHandmade: true,
+    image: VelociraptorHoodie,
+    description: "A warm hoodie with a unique, handmade Velociraptor graphic.",
+    sizes: ["S", "M", "L", "XL"],
+    colors: [
+      { name: "Black", hex: "#000000" },
+      { name: "Blue", hex: "#0000FF" },
+      { name: "Green", hex: "#008000" },
+      { name: "Pink", hex: "#FFC0CB" },
+      { name: "Orange", hex: "#FFA500" },
+      { name: "Brown", hex: "#A52A2A" },
+      { name: "Dark Green", hex: "#006400" },
+      { name: "Light Green", hex: "#90EE90" },
+      { name: "True Blue", hex: "#0000FF" },
+      { name: "Navy Blue", hex: "#000080" }
+    ],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/velociraptor-hoodie"
+  },
+  {
+    id: 10,
+    name: "Dragon Shirt",
+    type: "apparel",
+    price: 20,
+    new_price: 25,
+    image: DragonShirt,
+    description: "Our custom band tee with the Lariat Dragon graphic.",
+    sizes: ["S", "M", "L", "XL"],
+    colors: [],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/dragon-shirt"
+  },
+  {
+    id: 11,
+    name: "Dragon Hoodie",
+    type: "apparel",
+    price: 45,
+    image: DragonHoodie,
+    description: "A warm hoodie with a custom band graphic.",
+    sizes: ["S", "M", "L", "XL"],
+    colors: [],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/dragon-hoodie"
+  },
+  {
+    id: 12,
+    name: "Lariat Dragon Enamel Pin",
+    type: "accessory",
+    price: 6,
+    image: DragonEnamelPin,
+    description: "A high-quality enamel pin to accessorize your jacket or backpack.",
+    sizes: [],
+    colors: [],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/dragon-enamel-pin"
+  },
+  {
+    id: 13,
+    name: "Lariat Keychain",
+    type: "accessory",
+    price: 8,
+    image: LariatKeychain,
+    description: "A simple, yet stylish keychain to keep your keys organized.",
+    sizes: [],
+    colors: [],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/lariat-keychain"
+  },
+  {
+    id: 14,
+    name: "Year of the Dragon 3 CD",
+    type: "music",
+    price: 10,
+    image: YearoftheDragon3CD,
+    description: "Our full-length debut album on physical CD.",
+    sizes: [],
+    colors: [],
+    bandcampUrl: "https://lariat.bandcamp.com/album/year-of-the-dragon-3"
+  },
+  {
+    id: 15,
+    name: "Dragon Canvas Bag",
+    type: "accessory",
+    price: 15,
+    image: DragonCanvasBag,
+    description: "A durable canvas tote bag featuring the Lariat Dragon graphic.",
+    sizes: [],
+    colors: [],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/dragon-canvas-bag"
+  },
+  {
+    id: 16,
+    name: "Dragon Patch",
+    type: "accessory",
+    price: 7,
+    image: DragonPatch,
+    description: "An embroidered patch of the Lariat Dragon, perfect for jackets or bags.",
+    sizes: [],
+    colors: [],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/dragon-patch"
+  },
+  {
+    id: 17,
+    name: "Dragon Button",
+    type: "accessory",
+    price: 3,
+    image: DragonButton,
+    description: "A classic pin-back button with the Lariat Dragon graphic.",
+    sizes: [],
+    colors: [],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/dragon-button"
+  },
+  {
+    id: 18,
+    name: "Temporary Tattoo Sheet",
+    type: "accessory",
+    price: 10,
+    image: TemporaryTattooSheet,
+    description: "A sheet of various temporary tattoos featuring band logos and art.",
+    sizes: [],
+    colors: [],
+    bandcampUrl: "https://lariat.bandcamp.com/merch/temporary-tattoo-sheet"
+  }
 ];
 
-
-export const getAllMerch = () => merchItems;
-export const getMerchById = (id: number) => merchItems.find(item => item.id === id);
+export const getAllMerch = (): MerchItem[] => merchItems;
+export const getMerchById = (id: number): MerchItem | undefined =>
+  merchItems.find((item) => item.id === id);
