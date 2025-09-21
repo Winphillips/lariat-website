@@ -51,6 +51,9 @@
             <div class="album-info">
               <p>
                 Our first real project, YOTD3 is the concretion of years of making music. Some songs were 5 years old and some were barely a month old. Conceptually we attempted to capture the seasons we grew up together with and went through individually as we aged.
+                In 2000 Win and Coleman were born, completing the trio. That’s the first Year of the Dragon!
+In 2012 the three of us lived together for the first time with our grandparents in Red River, NM. Lariat is the name of the easiest way down the ski valley there. That’s Year of the Dragon 2!
+In 2024 Coleman moved to Fayetteville and we made this album. THATS YEAR OF THE DRAGON 3. Year of the Dragon 3 is a testament to each other and to you.
               </p>
             </div>
 
@@ -254,15 +257,15 @@ function closeAbout() {
 .tracklist {
   color: #7bc8afff;
   list-style-position: inside;
-  padding: 6px 14px;
+  padding: 2px 14px;
   margin: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0px; /* Reduced space between tracks */
+  gap: 0px;
   justify-content: center;
   align-items: center;
-  font-size: clamp(0.78rem, 2.2vw, 1.05rem);
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
   line-height: 1.5;
   text-align: center;
   max-height: calc(100% - 50px);
@@ -302,11 +305,11 @@ function closeAbout() {
 .album-info { position: relative; z-index: 2; padding: 2rem; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100%; text-align:center; box-sizing:border-box; }
 .album-info p {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(1rem, 2.8vw, 1.25rem); /* Increased font size */
+  font-size: clamp(1rem, 2.8vw, 1.25rem);
   margin:0;
   max-height: calc(100% - 80px);
   overflow:auto;
-  color: #ccf3e7;
+  color: #c9f4e6;
   text-shadow: 0 0 8px rgba(255, 190, 11, 0.7);
 }
 
@@ -348,8 +351,8 @@ function closeAbout() {
   border: 2px solid #7bc8af;
   font-weight: normal;
   font-size: clamp(1rem, 3vw, 1.2rem);
-  padding: 0.5em 1.5em; /* Thinner padding */
-  height: 45px; /* Thinner height */
+  padding: 0.5em 1.5em;
+  height: 45px;
   line-height: 1;
 }
 .link-btn:hover {

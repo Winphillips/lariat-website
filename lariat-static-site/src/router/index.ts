@@ -23,7 +23,8 @@ const routes = [
   {
     path: '/secret-music',
     name: 'SecretMusic',
-    component: SecretMusic
+    component: SecretMusic,
+    meta: { requiresAuth: true } // ADD THIS LINE
   }
 ]
 
@@ -31,5 +32,15 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = sessionStorage.getItem('isAuthenticated');
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next({ path: '/' });
+  } else {
+    next();
+  }
+});
 
 export default router

@@ -80,7 +80,7 @@ const product = computed(() => {
 // Color Hex
 const selectedColorHex = computed(() => {
   if (!product.value?.colors) return '';
-  const color = product.value.colors.find(c => c.name === selectedColor.value);
+  const color = product.value.colors.find((c: { name: string; hex: string }) => c.name === selectedColor.value);
   return color ? color.hex : '';
 });
 

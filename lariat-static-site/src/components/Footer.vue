@@ -198,7 +198,9 @@ footer i {
   margin: 0 -0.75rem;
 }
 
-.footer-socials a i {
+.footer-socials a i,
+.footer-contact a i,
+.footer-bookings a i {
   display: inline-block;
 }
 

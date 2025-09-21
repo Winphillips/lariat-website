@@ -1,5 +1,16 @@
 <template>
   <nav class="top-nav">
+
+    <button @click="toggleMenu" class="hamburger-button" aria-label="Open menu">
+      <!-- TODO: Get own icons instead of using w3 ones. -->
+      <svg v-if="!isMenuOpen" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="hamburger-icon">
+        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+      </svg>
+      <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="hamburger-icon">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+      </svg>
+    </button>
+
     <a @click="$emit('navigate', 0)" class="desktop-link">Shows</a>
     <a @click="$emit('navigate', 1)" class="desktop-link">Music</a>
 
@@ -13,16 +24,6 @@
       rel="noopener noreferrer"
       >Videos</a
     >
-
-    <button @click="toggleMenu" class="hamburger-button" aria-label="Open menu">
-      <!-- TODO: Get own icons instead of using w3 ones. -->
-      <svg v-if="!isMenuOpen" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="hamburger-icon">
-        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
-      </svg>
-      <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="hamburger-icon">
-        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-      </svg>
-    </button>
   </nav>
 
   <div class="mobile-menu" :class="{ 'is-open': isMenuOpen }">
@@ -31,7 +32,6 @@
       <a @click="navigateAndClose(0)">Shows</a>
       <a @click="navigateAndClose(3)">Store</a>
       <a @click="navigateAndClose(1)">Music</a>
-      <a href="/epk" target="_blank" rel="noopener noreferrer" @click="toggleMenu">EPK</a>
     </nav>
   </div>
 </template>
@@ -130,7 +130,7 @@ const navigateAndClose = (index: number) => {
 .mobile-menu.is-open .mobile-nav-links a:nth-child(5) { transition-delay: 0.4s; }
 
 
-@media (max-width: 780px) {
+@media (max-width: 980px) {
   .desktop-link {
     display: none;
   }
@@ -138,9 +138,24 @@ const navigateAndClose = (index: number) => {
   .hamburger-button {
     width: 20vw;
     height: 20vh;
-    margin-top: 2vh;
-    margin-right: 3vw;
-    align-items: right;
+    margin-top: -6vh;
+    margin-right: 5vw;
+    align-items: left;
+    display: inline-block;
+  }
+}
+
+@media (max-width: 800px) {
+  .desktop-link {
+    display: none;
+  }
+
+  .hamburger-button {
+    width: 20vw;
+    height: 20vh;
+    margin-top: -3vh;
+    margin-right: 5vw;
+    align-items: left;
     display: inline-block;
   }
 }
@@ -153,7 +168,7 @@ const navigateAndClose = (index: number) => {
   .hamburger-button {
     width: 20vw;
     height: 20vh;
-    margin-top: -1vh;
+    margin-top: -5vh;
     margin-right: 3vw;
     align-items: right;
     display: inline-block;
@@ -168,7 +183,7 @@ const navigateAndClose = (index: number) => {
   .hamburger-button {
     width: 20vw;
     height: 20vh;
-    margin-top: -3vh;
+    margin-top: -5vh;
     margin-right: 3vw;
     align-items: right;
     display: inline-block;
@@ -183,7 +198,7 @@ const navigateAndClose = (index: number) => {
   .hamburger-button {
     width: 16vw;
     height: 20vh;
-    margin-top: -4vh;
+    margin-top: -5vh;
     display: inline-block;
   }
 }

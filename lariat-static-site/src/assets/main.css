@@ -114,13 +114,13 @@ h2 {
   padding: 2rem 0 0 0;
   color: rgb(99, 151, 101);
   text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-  margin-top: -5vh; /* bottom of background image */
+  margin-top: -5vh;
 }
 
 @media (max-width: 1180px) {
 .top-nav a:not(.logo-link) {
   font-size: clamp(0.2rem, 2.5vw, 2rem);
-  transform: translateY(-2vh); /* topnav text lower */
+  transform: translateY(-2vh);
 }
 .logo-link {
     transform: translateY(-2vh);
@@ -150,7 +150,15 @@ h2 {
 @media (max-width: 780px) {
   .logo-link {
     font-size: clamp(3rem, 5rem, 6rem) !important;
-    transform: translateY(0vh);
+    transform: translateY(2vh) translateX(-9vw);
+    letter-spacing:8px !important;
+  }
+}
+
+@media (max-width: 780px) {
+  .logo-link {
+    font-size: clamp(3rem, 5rem, 6rem) !important;
+    transform: translateY(0vh) translateX(-9vw);
     letter-spacing:8px !important;
   }
 }
@@ -160,8 +168,8 @@ h2 {
   padding-top: 9%;
 }
   .logo-link {
-    font-size: clamp(2.5rem, 10vw, 3.2rem) !important;
-    transform: translateY(-3vh);
+    font-size: clamp(4rem, 15vw, 5.2rem) !important;
+    transform: translateY(-5vh) translateX(-9vw);
     letter-spacing:8px !important;
   }
 }
@@ -172,7 +180,7 @@ h2 {
 }
   .logo-link {
     font-size: clamp(2.5rem, 10vw, 3.2rem) !important;
-    transform: translateY(-2vh);
+    transform: translateY(-3vh) translateX(-9vw);
     letter-spacing:9px !important;
   }
 }

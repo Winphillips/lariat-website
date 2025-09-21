@@ -1,26 +1,22 @@
 <template>
   <div class="site-container">
-    <header class="site-header">
-      <TopNav :currentSection="currentSection" @navigate="scrollTo" />
-    </header>
+    <header class="site-header"></header>
+    <TopNav :currentSection="currentSection" @navigate="scrollTo" />
 
     <div class="wheel-stops-track" :style="{ transform: `translateX(-${wheelStopOffset}px)` }">
-      <!-- Wheel Stop 1 (Shows) -->
       <div class="wheel-stop-item ws-1">
         <img src="@/assets/wheelstop1.png" alt="Shows Parking Stop" />
       </div>
-      <!-- Wheel Stop 2 (Music) -->
       <div class="wheel-stop-item ws-2">
         <img src="@/assets/wheelstop2.png" alt="Music Parking Stop" />
       </div>
-      <!-- Wheel Stop 3 (Landing) - Interactive Block -->
       <div class="wheel-stop-item ws-3 interactive-item">
-        <img src="@/assets/wheelstop3.png" alt="Lariat Parking Stop" class="wheelstop-base" />
-        <img v-if="isBlockVisible" src="@/assets/wheelstop3block.png" alt="Interactive Block" class="wheelstop-block"
-          :class="{ shake: isShaking }" @click="handleBlockClick" />
-        <div class="clickable-area-right" @click="openSecretPagePrompt"></div>
+        <img src="@/assets/wheelstop3.webp" alt="Lariat Parking Stop" class="wheelstop-base" />
+        <img v-if="isBlockVisible" src="@/assets/wheelstop3block.webp" alt="Interactive Block" class="wheelstop-block"
+          :class="{ shake: isShaking }" />
+        <div v-if="isBlockVisible" class="clickable-area-right-block" @click.stop="handleBlockClick"></div>
+        <div class="clickable-area-right-secret" @click.stop="openSecretPagePrompt"></div>
       </div>
-      <!-- Wheel Stop 4 (Store) -->
       <div class="wheel-stop-item ws-4">
         <img src="@/assets/wheelstop4.png" alt="Store Parking Stop" />
       </div>
@@ -40,14 +36,19 @@
       <Footer />
     </footer>
 
-    <!-- Password Modal -->
     <div v-if="showPasswordModal" class="password-modal-overlay" @click.self="showPasswordModal = false">
       <div class="password-modal">
         <h3>Enter Password</h3>
-        <input type="password" v-model="passwordInput" @keyup.enter="checkPassword" placeholder="***" />
+        <div class="password-input-wrapper">
+          <input :type="passwordFieldType" v-model="passwordInput" @keyup.enter="checkPassword" placeholder="***" />
+          <button @click="togglePasswordVisibility" class="toggle-password" aria-label="Toggle password visibility">
+            <i v-if="passwordFieldType === 'password'" class="fas fa-eye"></i>
+            <i v-else class="fas fa-eye-slash"></i>
+          </button>
+        </div>
         <div class="modal-buttons">
-          <button @click="checkPassword">Enter</button>
           <button @click="showPasswordModal = false" class="cancel-btn">Cancel</button>
+          <button @click="checkPassword">Enter</button>
         </div>
         <p v-if="passwordError" class="error-message">{{ passwordError }}</p>
       </div>
@@ -80,7 +81,7 @@ import Store from '@/components/Store.vue';
 const spots = shallowRef([{ component: Shows }, { component: Music }, { component: Landing }, { component: Store }]);
 const scrollContainer = ref<HTMLElement | null>(null);
 const currentSection = ref(2);
-const isMobile = ref(window.innerWidth <= 820);
+const isMobile = ref(window.innerWidth <= 800);
 const router = useRouter();
 const wheelStopOffset = ref(0);
 
@@ -111,9 +112,16 @@ const openSecretPagePrompt = () => {
   showPasswordModal.value = true;
 };
 
+const passwordFieldType = ref<'password' | 'text'>('password');
+
+const togglePasswordVisibility = () => {
+  passwordFieldType.value = passwordFieldType.value === 'password' ? 'text' : 'password';
+};
+
 const checkPassword = () => {
   if (passwordInput.value.toLowerCase() === SECRET_PASSWORD) {
     showPasswordModal.value = false;
+    sessionStorage.setItem('isAuthenticated', 'true');
     router.push('/secret-music');
   } else {
     passwordError.value = 'Incorrect Password';
@@ -138,7 +146,7 @@ const handleScroll = () => {
 };
 
 const onResize = () => {
-  isMobile.value = window.innerWidth <= 820;
+  isMobile.value = window.innerWidth <= 800;
   if (scrollContainer.value) {
     const newScrollLeft = currentSection.value * scrollContainer.value.clientWidth;
     scrollContainer.value.scrollLeft = newScrollLeft;
@@ -164,13 +172,16 @@ onUnmounted(() => {
 
 <style scoped>
 .site-container {
-  --header-height: 8vh; /* ----DIAL: HEADER HEIGHT */
-  --wheel-stop-top-offset: 1vh; /* ----DIAL: WHEEL STOP Y POSITION */
-  --content-top-padding: 20vh; /* ----DIAL: CONTENT TOP PADDING */
-  --footer-top-margin: 0vh; /* ----DIAL: FOOTER TOP MARGIN */
-  --fade-starts-at: 10vh; /* ----DIAL: CONTENT FADE START */
-  --fade-ends-at: 20vh; /* ----DIAL: CONTENT FADE END */
-  --wheel-stop-height: 22vh; /* ----DIAL: WHEEL STOP VERTICAL STRETCH */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  --header-height: 8vh;
+  --wheel-stop-top-offset: 1vh;
+  --content-top-padding: 20vh;
+  --footer-top-margin: 0vh;
+  --fade-starts-at: 10vh;
+  --fade-ends-at: 20vh;
+  --wheel-stop-height: 22vh;
 }
 
 .site-header {
@@ -179,10 +190,28 @@ onUnmounted(() => {
   left: 0;
   height: var(--header-height);
   width: 100%;
-  z-index: 60;
+  z-index: 4;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+:deep(.top-nav) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-top: 2vh;
+  display: flex;
+  justify-content: center;
+  gap: clamp(0.5rem, 2vw, 2rem);
+  z-index: 1200;
+  pointer-events: none;
+}
+:deep(.top-nav a) {
+  position: relative;
+  z-index: 1210;
+  pointer-events: auto;
 }
 
 .wheel-stops-track {
@@ -215,26 +244,50 @@ onUnmounted(() => {
   position: absolute;
 }
 .interactive-item .wheelstop-block {
-  z-index: 10;
-  pointer-events: auto;
-  cursor: pointer;
+  position: absolute;
+  z-index: 100;
+  pointer-events: none;
+  cursor: default;
 }
 
 .ws-3 {
-  transform: translateY(-3vh); /* ----DIAL: WHEEL STOP 3 Y-AXIS OFFSET */
+  transform: translateY(-2.5vh);
 }
 
-/* Right of wheel stop 3 clickable */
 .ws-3 .clickable-area-right {
   position: absolute;
   top: 0;
   left: 80%;
-  width: 20%;
+  width: 14%;
   height: 100%;
   z-index: 1;
   pointer-events: auto;
   cursor: pointer;
   background: transparent;
+}
+
+.clickable-area-right-block {
+  position: absolute;
+  top: 0;
+  left: 80%;
+  width: 18%;
+  height: 120%;
+  z-index: 1100;
+  pointer-events: auto;
+  background: transparent;
+  cursor: pointer;
+}
+
+.clickable-area-right-secret {
+  position: absolute;
+  top: 0;
+  left: 80%;
+  width: 18%;
+  height: 120%;
+  z-index: 1080;
+  pointer-events: auto;
+  background: transparent;
+  cursor: pointer;
 }
 
 .shake {
@@ -247,20 +300,14 @@ onUnmounted(() => {
   40%, 60% { transform: translate3d(4px, 0, 0) rotate(-0.5deg); }
 }
 
-.top-nav {
-  position: relative;
-  z-index: 20;
-  width: 100%;
-}
-
 .scroll-container {
-  height: 100vh;
+  flex-grow: 1;
   display: flex;
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  background-image: url("@/assets/parkinglot.png");
+  background-image: url("@/assets/parkinglot.webp");
   background-size: 400vw 100%;
   background-position: 0 0;
   margin-bottom: var(--footer-top-margin);
@@ -283,15 +330,22 @@ onUnmounted(() => {
 }
 
 .site-footer {
+  flex-shrink: 0;
   width: 100%;
 }
 .password-modal-overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8);
-  display: flex; justify-content: center; align-items: center; z-index: 100; backdrop-filter: blur(5px);
+  display: flex; justify-content: center; align-items: center; z-index: 1300; backdrop-filter: blur(5px);
 }
 .password-modal {
   background: #1a1a1a; padding: 2rem 2.5rem; border-radius: 12px; text-align: center;
   border: 2px solid rgb(99, 151, 101); box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+}
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 .password-modal input {
   background-color: #333; border: 2px solid #555; color: #fff; padding: 0.75rem; border-radius: 6px;
@@ -303,6 +357,29 @@ onUnmounted(() => {
   border-radius: 6px; cursor: pointer; font-weight: bold;
 }
 .password-modal button.cancel-btn { background: #444; }
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0.4rem !important;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.toggle-password i {
+  color: #b5e9eb;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+
+.toggle-password:hover i {
+  color: #fff;
+}
 
 .arrow {
   position: fixed; top: 55%; transform: translateY(-50%); z-index: 70; background-color: rgba(0, 0, 0, 0.3);
@@ -314,14 +391,27 @@ onUnmounted(() => {
 .arrow.left { left: 20px; }
 .arrow.right { right: 20px; }
 
-
-@media (max-width: 780px) {
+@media (max-width: 800px) {
+  :deep(.top-nav) {
+    padding-top: 1vh;
+  }
+  .clickable-area-right-block {
+    right: 12%;
+    width: 18vw;
+    height: 10vh;
+    z-index: 1100;
+  }
   .site-container { --content-top-padding: 15vh; }
   .wheel-stop-item img {
-    transform: rotate(-0.5deg) scaleY(1.7) translateY(-1vh);
+    transform: rotate(-0.5deg) scaleY(1.5) translateY(-1vh);
     transform-origin: top center;
   }
+  .parking-spot {
+    background-size: 60% 20%;
+    background-position: center center;
+  }
 }
+
 @media (max-width: 660px) {
   .site-container { --content-top-padding: 10vh; }
    .wheel-stop-item img {
@@ -329,6 +419,7 @@ onUnmounted(() => {
     transform-origin: top center;
   }
 }
+
 @media (max-width: 460px) {
   .site-container { --content-top-padding: 10vh; }
    .wheel-stop-item img {

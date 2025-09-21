@@ -48,7 +48,7 @@ const merchItems = getAllMerch();
 
 .merch-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
 }
 
@@ -60,6 +60,8 @@ const merchItems = getAllMerch();
   flex-direction: column;
   align-items: center;
   transition: transform 0.2s ease;
+  aspect-ratio: 1 / 1;
+  justify-content: space-between;
 }
 .merch-card:hover {
   transform: translateY(-5px);
@@ -67,7 +69,6 @@ const merchItems = getAllMerch();
 
 .merch-image {
   width: 100%;
-  height: 250px;
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 1rem;
@@ -107,5 +108,23 @@ const merchItems = getAllMerch();
 }
 .buy-button:hover {
   background-color: #4f7d88;
+}
+
+@media (max-width: 1024px) {
+  .merch-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .merch-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .merch-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
