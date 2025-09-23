@@ -237,6 +237,8 @@ h2 {
   max-width: 1000px;
   margin: 8rem auto 4rem auto;
   aspect-ratio: 16 / 9;
+   mask-image: linear-gradient(to bottom, transparent 0%, black 20%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%);
 }
 
 .band-photo {

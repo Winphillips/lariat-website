@@ -153,10 +153,21 @@ const navigateAndClose = (index: number) => {
   .hamburger-button {
     width: 20vw;
     height: 20vh;
-    margin-top: -3vh;
+    margin-top: -0.8vh;
     margin-right: 5vw;
-    align-items: left;
-    display: inline-block;
+  }
+}
+
+@media (max-width: 700px) {
+  .desktop-link {
+    display: none;
+  }
+
+  .hamburger-button {
+    width: 20vw;
+    height: 20vh;
+    margin-top: -2vh;
+    margin-right: 5vw;
   }
 }
 

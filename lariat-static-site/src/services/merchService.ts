@@ -55,7 +55,7 @@ const merchItems: MerchItem[] = [
     new_price: 30,
     isHandmade: true,
     image: VelociraptorShirt,
-    description: "A one-of-a-kind, handmade shirt featuring a unique Velociraptor graphic.",
+    description: "A 1/1, handmade bleach shirt featuring our Velociraptor design. All blanks are thrifted",
     sizes: ["S", "M", "L", "XL"],
     colors: [
       { name: "Black", hex: "#000000" }, { name: "Blue", hex: "#0000FF" },
@@ -73,7 +73,7 @@ const merchItems: MerchItem[] = [
     price: 30,
     isHandmade: true,
     image: VelociraptorSweatpants,
-    description: "Comfortable and stylish sweatpants with a custom handmade Velociraptor design.",
+    description: "Flared Sweapants with our velociraptor design.",
     sizes: ["S", "M", "L", "XL"],
     colors: [
       { name: "Black", hex: "#000000" }, { name: "Grey", hex: "#808080" },
@@ -81,9 +81,6 @@ const merchItems: MerchItem[] = [
     ],
     bandcampUrl: "https://lariat.bandcamp.com/merch/velociraptor-sweatpants"
   },
-  /*
-  // ... other commented out items
-  */
 ];
 
 // Restore the export functions

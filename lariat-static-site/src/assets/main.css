@@ -147,18 +147,10 @@ h2 {
   }
 }
 
-@media (max-width: 780px) {
+@media (max-width: 800px) {
   .logo-link {
     font-size: clamp(3rem, 5rem, 6rem) !important;
-    transform: translateY(2vh) translateX(-9vw);
-    letter-spacing:8px !important;
-  }
-}
-
-@media (max-width: 780px) {
-  .logo-link {
-    font-size: clamp(3rem, 5rem, 6rem) !important;
-    transform: translateY(0vh) translateX(-9vw);
+    transform: translateY(0.8vh) translateX(-9vw);
     letter-spacing:8px !important;
   }
 }

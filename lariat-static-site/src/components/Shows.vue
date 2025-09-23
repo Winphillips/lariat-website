@@ -9,24 +9,13 @@
         <div class="show-date">{{ show.date }}</div>
         <div class="show-venue">
           <a
-  :href="`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    show.coords
-  )}`"
-  target="_blank"
-  class="venue-link"
-  rel="noopener noreferrer"
->
+            :href="`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(show.coords)}`"
+            target="_blank"
+            class="venue-link"
+            rel="noopener noreferrer"
+          >
             {{ show.venue }}
-            <svg
-              class="waypoint-icon"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path
-                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"
-              />
-            </svg>
+            <i class="fas fa-map-marker-alt waypoint-icon"></i>
           </a>
         </div>
         <div class="show-city">{{ show.city }}</div>
@@ -55,7 +44,11 @@
           With......... {{ show.with }}
         </div>
         <div class="show-times">
-          Show: {{ show.showTime }} | Doors: {{ show.doors }}
+          <span v-if="show.showTime">Show: {{ show.showTime }}</span>
+          <span v-if="show.doors">
+            <template v-if="show.showTime"> | </template>
+            Doors: {{ show.doors }}
+          </span>
         </div>
       </div>
     </div>
@@ -102,26 +95,42 @@ const formatTime = (raw: string) => {
   return `${hours}:${minutes} ${ampm}`;
 };
 
-onMounted(() => {
-  fetch(sheetURL)
-    .then((res) => res.text())
-    .then((text) => {
-      const json = JSON.parse(text.substring(47).slice(0, -2));
-      shows.value = json.table.rows.map((row: any) => {
-        const cells = row.c.map((cell: any) => (cell ? cell.v : ""));
-        return {
-          date: formatDate(cells[0]),
-          doors: formatTime(cells[1]),
-          showTime: formatTime(cells[2]),
-          venue: cells[3],
-          city: cells[4],
-          tickets: cells[5],
-          coords: cells[6],
-          price: cells[7],
-          with: cells[8],
-        };
-      });
+// load and parse sheet data
+const parseGviz = (text: string) => {
+  const start = text.indexOf("{");
+  const end = text.lastIndexOf("}");
+  if (start === -1 || end === -1) throw new Error("gviz JSON not found");
+  return JSON.parse(text.slice(start, end + 1));
+};
+
+const loadShows = async () => {
+  try {
+    const res = await fetch(sheetURL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const text = await res.text();
+    const json = parseGviz(text);
+    shows.value = json.table.rows.map((row: any) => {
+      const cells = row.c.map((cell: any) => (cell ? cell.v : ""));
+      return {
+        date: formatDate(cells[0]),
+        doors: formatTime(cells[1]),
+        showTime: formatTime(cells[2]),
+        venue: cells[3],
+        city: cells[4],
+        tickets: cells[5],
+        coords: cells[6],
+        price: cells[7],
+        with: cells[8],
+      } as Show;
     });
+  } catch (err) {
+    console.error("Failed to load shows:", err);
+    shows.value = [];
+  }
+};
+
+onMounted(() => {
+  loadShows();
 });
 </script>
 
@@ -140,26 +149,35 @@ onMounted(() => {
 .show-entry {
   padding: 1.5rem 0 2rem 0;
   border-bottom: 4px solid rgb(99, 151, 101);
+  text-shadow: 0px 0px 4px rgba(0,0,0), -2px 2px 2px rgba(0,0,0);
 }
 .main-line {
   display: grid;
-  grid-template-columns: 1fr 2fr 1.5fr 1fr;
+  grid-template-columns: 1fr 2.5fr 1.5fr 1fr;
   gap: 1.4rem;
   font-size: 1.75rem;
   font-weight: 600;
   align-items: center;
+  margin-bottom: 0.5rem;
 }
 .secondary-line {
-  display: flex;
-  justify-content: space-evenly;
-  margin-top: 0.5rem;
-  font-size: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 2.5fr 1.5fr 1fr;
+  gap: 1.4rem;
+  align-items: center;
+}
+.show-date {
+  font-family: "Arial", sans-serif;
+  font-weight: bold;
+  padding-right: 2rem;
 }
 .show-venue {
   display: flex;
   align-items: center;
-  justify-content: left;
-  padding-left: 3rem;
+  justify-content: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .venue-link {
   display: inline-flex;
@@ -173,9 +191,11 @@ onMounted(() => {
   border-bottom-color: rgb(99, 151, 101);
 }
 .waypoint-icon {
-  width: 24px;
-  height: 24px;
-  margin-left: 0.5rem;
+  font-size: 1em;
+  margin-left: 0.4rem;
+}
+.show-city{
+  font-family: "Arial", sans-serif;
 }
 .ticket-info {
   display: flex;
@@ -191,6 +211,11 @@ onMounted(() => {
   border-radius: 6px;
   text-decoration: none;
   font-weight: bold;
+  transition: all 0.2s ease;
+}
+.ticket-btn:hover {
+  background: rgb(99, 151, 101);
+  color: white;
 }
 .price {
   font-family: "Arial", sans-serif;
@@ -200,35 +225,50 @@ onMounted(() => {
   font-weight: bold;
 }
 .with-text {
+  grid-column: 2;
   font-size: 1.25rem;
+  padding-left: 3.5rem;
   text-align: left;
-  padding-left: 4.5rem;
 }
 .show-times {
-  font-size: 1rem;
-  text-align: center;
+  grid-column: 4;
+  font-size: 1.2rem;
+  text-align: right;
   font-family: "Arial", sans-serif;
+  white-space: nowrap;
 }
-
 @media (max-width: 820px) {
   .main-line {
     grid-template-columns: 1fr;
     gap: 0.5rem;
     font-size: 1.25rem;
     text-align: center;
+    margin-bottom: 0;
   }
-  .secondary-line,
+  .secondary-line {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 1rem;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+  .show-date {
+  padding-right: 0;
+}
   .show-venue,
   .with-text,
   .ticket-info {
     justify-content: center;
     text-align: center;
-    padding-left: 0;
   }
-  .secondary-line {
-    flex-direction: column;
-    gap: 0.5rem;
-    font-size: 1rem;
+  .with-text,
+  .show-times {
+    grid-column: auto;
+    text-align: center;
+  }
+  .with-text {
+    padding-left: 0;
   }
 }
 </style>

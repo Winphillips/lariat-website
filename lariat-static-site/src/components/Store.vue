@@ -1,7 +1,9 @@
 <template>
   <div class="store-page">
-    <h1>Store/Under Construction</h1>
-    <p class="subtitle">All merch will be sold through bandcamp or at shows</p>
+    <h1>Store</h1>
+    <h2 class="info">! UNDER CONSTRUCTION !</h2>
+    <h2 class="info">:(</h2>
+    <p class="subtitle">All merch will be sold through bandcamp or at shows for now</p>
 
     <div class="merch-grid">
       <div v-for="item in merchItems" :key="item.id" class="merch-card">
@@ -33,6 +35,12 @@ const merchItems = getAllMerch();
 </script>
 
 <style scoped>
+.info{
+  font-family: "Arial", sans-serif;
+  color: gold;
+  text-shadow: 0px 0px 4px rgba(0,0,0), -2px 2px 2px rgba(0,0,0);
+}
+
 .store-page {
   max-width: 1200px;
   margin: 0 auto;
@@ -47,12 +55,14 @@ const merchItems = getAllMerch();
 }
 
 .merch-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 2rem;
 }
 
 .merch-card {
+  flex: 0 1 300px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 12px;
   padding: 1rem;
@@ -108,23 +118,5 @@ const merchItems = getAllMerch();
 }
 .buy-button:hover {
   background-color: #4f7d88;
-}
-
-@media (max-width: 1024px) {
-  .merch-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .merch-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .merch-grid {
-    grid-template-columns: 1fr;
-  }
 }
 </style>
