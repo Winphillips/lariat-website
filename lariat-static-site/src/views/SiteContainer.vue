@@ -391,15 +391,27 @@ onUnmounted(() => {
 .arrow.left { left: 20px; }
 .arrow.right { right: 20px; }
 
-@media (max-width: 800px) {
-  :deep(.top-nav) {
-    padding-top: 1vh;
-  }
+@media (max-width: 980px) {
+  .hamburger-button,
+  .hamburger-button .hamburger-icon { z-index: 20050; }
+  .clickable-area-right-block { z-index: 1800; }
+  .clickable-area-right-secret { z-index: 1400; }
+
   .clickable-area-right-block {
     right: 12%;
     width: 18vw;
-    height: 10vh;
-    z-index: 1100;
+    height: 90%;
+  }
+  .clickable-area-right-secret {
+    right: 12%;
+    width: 18vw;
+    height: 90%;
+  }
+}
+
+@media (max-width: 800px) {
+  :deep(.top-nav) {
+    padding-top: 1vh;
   }
   .site-container { --content-top-padding: 15vh; }
   .wheel-stop-item img {

@@ -67,7 +67,6 @@ const navigateAndClose = (index: number) => {
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 1001;
 }
 
 .hamburger-icon {
@@ -75,6 +74,13 @@ const navigateAndClose = (index: number) => {
   height: 9vh;
   fill: rgb(99, 151, 101);
   filter: drop-shadow(1px 2px 2px rgba(0, 0, 0));
+}
+
+.hamburger-button,
+.hamburger-button .hamburger-icon {
+  position: relative;
+  z-index: 20050;
+  pointer-events: auto;
 }
 
 .mobile-menu {
