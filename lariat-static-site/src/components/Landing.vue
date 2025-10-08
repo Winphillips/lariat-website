@@ -59,7 +59,7 @@
           </div>
           <div class="mobile-text">
             <p>
-              In 2012 we lived together in an old mining town turned small ski town called Red River, NM. On the mountain if anything happened and
+              In 2012 we lived together in an old mining town turned ski town called Red River, NM. If anything happened and
               we just needed the safest way to the bottom, we’d take the trail called Lariat.
             </p>
             <p>
