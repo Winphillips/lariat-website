@@ -1,17 +1,19 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Triggers the workflow on push events to the main branch
   push:
     branches:
       - main
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -19,23 +21,17 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          # Use a modern, stable Node version
-          node-version: 20 
+          node-version: 20
 
       - name: Install dependencies
-        # Use 'npm ci' for clean, consistent installs in CI environments
-        run: npm ci 
+        run: npm ci
 
       - name: Build project
-        # This runs your "build" script from package.json
         run: npm run build
 
       - name: Deploy to GitHub Pages
-        # This action automatically handles pushing the 'dist' folder to the 'gh-pages' branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # The folder created by your 'npm run build' script
-          publish_dir: ./dist 
-          # The destination branch for GitHub Pages
+          publish_dir: ./dist
           publish_branch: gh-pages
