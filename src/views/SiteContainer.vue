@@ -320,6 +320,7 @@ onUnmounted(() => {
   overflow-y: auto;
   -webkit-mask-image: linear-gradient(to bottom, transparent var(--fade-starts-at), black var(--fade-ends-at));
   mask-image: linear-gradient(to bottom, transparent var(--fade-starts-at), black var(--fade-ends-at));
+  touch-action: pan-y;
 }
 .scrollable-content {
   padding-top: var(--content-top-padding);

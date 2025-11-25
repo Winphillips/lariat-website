@@ -24,7 +24,7 @@ const routes = [
     path: '/secret-music',
     name: 'SecretMusic',
     component: SecretMusic,
-    meta: { requiresAuth: true } // ADD THIS LINE
+    meta: { requiresAuth: true }
   }
 ]
 

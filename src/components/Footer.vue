@@ -18,6 +18,7 @@
     <div class="footer-section footer-streams" aria-label="Streaming platforms">
       <a
         href="#"
+        class="stream-link"
         @click.prevent="openDeepLink('spotify:artist:5BIlBjorSOpyXndhZfBUKM', 'https://open.spotify.com/artist/5BIlBjorSOpyXndhZfBUKM')"
         aria-label="Spotify"
       >
@@ -28,6 +29,7 @@
 
       <a
         href="#"
+        class="stream-link"
         @click.prevent="openDeepLink('music://music.apple.com/us/artist/lariat/1582553734', 'https://music.apple.com/us/artist/lariat/1582553734')"
         aria-label="Apple Music"
       >
@@ -38,26 +40,21 @@
 
       <a
         href="#"
-        @click.prevent="openDeepLink('tidal://artist/43715934', 'https://tidal.com/browse/artist/43715934')"
-        aria-label="Tidal"
-      >
-        <i class="fas fa-music"></i>
-        <span class="link-text">Tidal</span>
-      </a>
-      <span class="separator">|</span>
-
-      <a
-        href="#"
-        @click.prevent="openDeepLink('https://music.youtube.com/channel/UCPyc91HuXGGt_g_kV8KzG6A', 'https://music.youtube.com/channel/UCPyc91HuXGGt_g_k8zG6A')"
+        class="stream-link"
+        @click.prevent="openDeepLink('https://music.youtube.com/channel/UCPyc91HuXGGt_g_kV8KzG6A', 'https://music.youtube.com/channel/UCPyc91HuXGGt_g_kV8KzG6A')"
         aria-label="YouTube Music"
       >
-        <i class="fab fa-youtube"></i>
+        <span class="fa-stack icon-stack" aria-hidden="true">
+          <i class="fa-regular fa-circle fa-stack-2x" style="transform: translate(0px, 2px) scale(0.9);"></i>
+          <i class="fa-solid fa-play fa-stack-1x fa-inverse" style="transform: translate(0.3px, 1.5px) scale(0.5);"></i>
+        </span>
         <span class="link-text">YouTube Music</span>
       </a>
       <span class="separator">|</span>
 
       <a
         href="#"
+        class="stream-link"
         @click.prevent="openDeepLink('amazonmusic://artists/B0B69J6LWR', 'https://music.amazon.com/artists/B0B69J6LWR/lariat')"
         aria-label="Amazon Music"
       >
@@ -68,6 +65,7 @@
 
       <a
         href="#"
+        class="stream-link"
         @click.prevent="openDeepLink('deezer://www.deezer.com/artist/1130595', 'https://www.deezer.com/us/artist/1130595')"
         aria-label="Deezer"
       >
@@ -77,7 +75,7 @@
 
       <span class="separator">|</span>
 
-      <a href="https://distrokid.com/hyperfollow/lariat1/year-of-the-dragon-3-2" target="_blank" rel="noopener noreferrer" aria-label="All Platforms">
+      <a href="https://distrokid.com/hyperfollow/lariat1/year-of-the-dragon-3-2" target="_blank" rel="noopener noreferrer" aria-label="All Platforms" class="stream-link">
         <i class="fas fa-link"></i>
         <span class="link-text">All</span>
       </a>
@@ -97,7 +95,6 @@
       </a>
     </div>
 
-    <!-- New: Legal / Policies -->
     <div class="footer-section footer-legal">
       <a href="/legal/privacy-policy.html" target="_blank" rel="noopener noreferrer" aria-label="Privacy Policy">Privacy Policy</a>
       <span class="separator">|</span>
@@ -228,5 +225,47 @@ footer i {
 .footer-section.footer-legal {
   font-size: 0.85rem;
   color: #999;
+}
+
+.footer-section.footer-streams .stream-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.08rem 0;
+  line-height: 1;
+  vertical-align: middle;
+  text-decoration: none;
+}
+
+.footer-section.footer-streams .stream-link i,
+.footer-section.footer-streams .stream-link .fa-stack {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 22px;
+  line-height: 1;
+}
+
+.icon-stack .fa-regular.fa-circle {
+  transform: translateY(1px) scale(0.92);
+  transform-origin: center;
+}
+.icon-stack .fa-solid.fa-play {
+  transform: translate(1px, -2px) scale(0.68);
+  transform-origin: center;
+  color: currentColor;
+}
+
+.footer-section.footer-streams .stream-link:nth-of-type(-n+3) {
+  gap: 0.45rem;
+  padding-right: 0.12rem;
+}
+
+.footer-section.footer-streams .separator {
+  margin: 0 0.5rem;
+  display: inline-block;
 }
 </style>

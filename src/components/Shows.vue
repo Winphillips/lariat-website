@@ -9,7 +9,7 @@
         <div class="show-date">{{ show.date }}</div>
         <div class="show-venue">
           <a
-            :href="`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(show.coords)}`"
+            :href="`https://www.google.com/maps/search/?api=1&query=$${encodeURIComponent(show.coords)}`"
             target="_blank"
             class="venue-link"
             rel="noopener noreferrer"
@@ -20,16 +20,20 @@
         </div>
         <div class="show-city">{{ show.city }}</div>
         <div class="ticket-info">
-          <a
+          <div
             v-if="show.tickets && show.tickets !== 'FREE'"
-            :href="show.tickets"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="ticket-btn"
-            >Tickets</a
+            class="ticket-btn-group"
           >
-          <div v-if="show.price && show.price !== 'FREE'" class="price">
-            {{ show.price }}
+            <a
+              :href="show.tickets"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="ticket-btn"
+              >Tickets</a
+            >
+            <div v-if="show.price && show.price !== 'FREE'" class="price">
+              {{ show.price }} $
+            </div>
           </div>
           <div
             v-if="!show.tickets || show.tickets === 'FREE'"
@@ -72,7 +76,8 @@ interface Show {
 
 const shows = ref<Show[]>([]);
 const sheetURL =
-  "https://docs.google.com/spreadsheets/d/1ZBKK2wc7HDZ2y7QtMg6OZ4rVJaHKNpAyy1V8hPc7QoQ/gviz/tq?tqx=out:json";
+  "https://docs.google.com/spreadsheets/d/1ZBKK2wc7HDZ2y7QtMg6OZ4rVJaHKNpAyy1V8hPc7QoQ/gviz/tq?tqx=out:json&nocache=" + new Date().getTime();
+
 
 const formatDate = (raw: string) => {
   const match = raw.match(/Date\((\d+),(\d+),(\d+)\)/);
@@ -198,8 +203,7 @@ onMounted(() => {
   font-family: "Arial", sans-serif;
 }
 .ticket-info {
-  display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 0.5rem;
   justify-content: flex-end;
 }
@@ -217,9 +221,15 @@ onMounted(() => {
   background: rgb(99, 151, 101);
   color: white;
 }
+.ticket-btn-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .price {
   font-family: "Arial", sans-serif;
-  font-size: 0.9rem;
+  font-size: 1.3rem;
+  margin-top: 0.25rem;
 }
 .free-show {
   font-weight: bold;
