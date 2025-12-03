@@ -33,6 +33,7 @@ const songs = ref<Song[]>([
   { title: "Stomp Me Out - Alt Demo", url: "/audio/Stomp Me Out - Alt.wav" },
   { title: "Cut from Year of the Dragon 3 - 'Prometheus Demo'", url: "/audio/Prometheus.wav" },
   { title: "Unreleased beat we made in one night in like 2019 - 'Elysium Alps'", url: "/audio/Elysium Alps.wav" },
+  { title: "Mushroom Cloud Parade - Live from \"The Garden Room\" Oct 19 2025", url: "/audio/MCPLive.wav" },
 ]);
 </script>
 

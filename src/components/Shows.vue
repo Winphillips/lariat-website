@@ -1,58 +1,62 @@
 <template>
   <div class="page-content shows-container">
-    <h1 class="shows-title">Upcoming Shows</h1>
-    <div v-if="shows.length === 0">
-      <p>No upcoming shows at the moment. Check back soon!</p>
-    </div>
-    <div v-for="show in shows" :key="show.date" class="show-entry">
-      <div class="main-line">
-        <div class="show-date">{{ show.date }}</div>
-        <div class="show-venue">
-          <a
-            :href="`https://www.google.com/maps/search/?api=1&query=$${encodeURIComponent(show.coords)}`"
-            target="_blank"
-            class="venue-link"
-            rel="noopener noreferrer"
-          >
-            {{ show.venue }}
-            <i class="fas fa-map-marker-alt waypoint-icon"></i>
-          </a>
-        </div>
-        <div class="show-city">{{ show.city }}</div>
-        <div class="ticket-info">
-          <div
-            v-if="show.tickets && show.tickets !== 'FREE'"
-            class="ticket-btn-group"
-          >
+    <Fireflies :isActive="isActive" />
+    
+    <div class="shows-inner">
+      <h1 class="shows-title">Upcoming Shows</h1>
+      <div v-if="shows.length === 0">
+        <p>No upcoming shows at the moment. Check back soon!</p>
+      </div>
+      <div v-for="show in shows" :key="show.date" class="show-entry">
+        <div class="main-line">
+          <div class="show-date">{{ show.date }}</div>
+          <div class="show-venue">
             <a
-              :href="show.tickets"
+              :href="`https://www.google.com/maps/search/?api=1&query=$${encodeURIComponent(show.coords)}`"
               target="_blank"
+              class="venue-link"
               rel="noopener noreferrer"
-              class="ticket-btn"
-              >Tickets</a
             >
-            <div v-if="show.price && show.price !== 'FREE'" class="price">
-              {{ show.price }} $
+              {{ show.venue }}
+              <i class="fas fa-map-marker-alt waypoint-icon"></i>
+            </a>
+          </div>
+          <div class="show-city">{{ show.city }}</div>
+          <div class="ticket-info">
+            <div
+              v-if="show.tickets && show.tickets !== 'FREE'"
+              class="ticket-btn-group"
+            >
+              <a
+                :href="show.tickets"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="ticket-btn"
+                >Tickets</a
+              >
+              <div v-if="show.price && show.price !== 'FREE'" class="price">
+                {{ show.price }} $
+              </div>
+            </div>
+            <div
+              v-if="!show.tickets || show.tickets === 'FREE'"
+              class="free-show"
+            >
+              FREE
             </div>
           </div>
-          <div
-            v-if="!show.tickets || show.tickets === 'FREE'"
-            class="free-show"
-          >
-            FREE
+        </div>
+        <div class="secondary-line">
+          <div v-if="show.with" class="with-text">
+            With......... {{ show.with }}
           </div>
-        </div>
-      </div>
-      <div class="secondary-line">
-        <div v-if="show.with" class="with-text">
-          With......... {{ show.with }}
-        </div>
-        <div class="show-times">
-          <span v-if="show.showTime">Show: {{ show.showTime }}</span>
-          <span v-if="show.doors">
-            <template v-if="show.showTime"> | </template>
-            Doors: {{ show.doors }}
-          </span>
+          <div class="show-times">
+            <span v-if="show.showTime">Show: {{ show.showTime }}</span>
+            <span v-if="show.doors">
+              <template v-if="show.showTime"> | </template>
+              Doors: {{ show.doors }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -61,6 +65,13 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import Fireflies from "@/components/Fireflies.vue";
+
+const props = withDefaults(defineProps<{
+  isActive?: boolean;
+}>(), {
+  isActive: false
+});
 
 interface Show {
   date: string;
@@ -100,7 +111,6 @@ const formatTime = (raw: string) => {
   return `${hours}:${minutes} ${ampm}`;
 };
 
-// load and parse sheet data
 const parseGviz = (text: string) => {
   const start = text.indexOf("{");
   const end = text.lastIndexOf("}");
@@ -146,6 +156,12 @@ onMounted(() => {
   margin: 0 auto;
   padding: 2rem;
   box-sizing: border-box;
+  position: relative;
+  min-height: 100%; 
+}
+.shows-inner {
+  position: relative;
+  z-index: 2;
 }
 .shows-title {
   font-family: "New Rocker", sans-serif;

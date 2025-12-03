@@ -26,7 +26,7 @@
       <section class="parking-spot" v-for="(spot, index) in spots" :key="index">
         <div class="scrollable-content">
           <div class="page-content">
-            <component :is="spot.component" />
+            <component :is="spot.component" :isActive="currentSection === index" />
           </div>
         </div>
       </section>
@@ -140,7 +140,7 @@ const handleScroll = () => {
   const { scrollLeft, clientWidth } = scrollContainer.value;
   scrollContainer.value.style.backgroundPositionX = `-${scrollLeft}px`;
   wheelStopOffset.value = scrollLeft;
-  
+
   const idx = Math.round(scrollLeft / clientWidth);
   if (currentSection.value !== idx) currentSection.value = idx;
 };
@@ -208,6 +208,7 @@ onUnmounted(() => {
   z-index: 1200;
   pointer-events: none;
 }
+
 :deep(.top-nav a) {
   position: relative;
   z-index: 1210;
@@ -223,6 +224,7 @@ onUnmounted(() => {
   height: var(--wheel-stop-height);
   z-index: 5;
 }
+
 .wheel-stop-item {
   width: 100vw;
   height: 100%;
@@ -231,6 +233,7 @@ onUnmounted(() => {
   align-items: flex-start;
   position: relative;
 }
+
 .wheel-stop-item img {
   width: 90vw;
   height: auto;
@@ -243,6 +246,7 @@ onUnmounted(() => {
 .interactive-item .wheelstop-block {
   position: absolute;
 }
+
 .interactive-item .wheelstop-block {
   position: absolute;
   z-index: 100;
@@ -293,11 +297,29 @@ onUnmounted(() => {
 .shake {
   animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
+
 @keyframes shake {
-  10%, 90% { transform: translate3d(-1px, 0, 0) rotate(-0.5deg); }
-  20%, 80% { transform: translate3d(2px, 0, 0) rotate(-0.5deg); }
-  30%, 50%, 70% { transform: translate3d(-4px, 0, 0) rotate(-0.5deg); }
-  40%, 60% { transform: translate3d(4px, 0, 0) rotate(-0.5deg); }
+
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0) rotate(-0.5deg);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0) rotate(-0.5deg);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0) rotate(-0.5deg);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0) rotate(-0.5deg);
+  }
 }
 
 .scroll-container {
@@ -312,7 +334,11 @@ onUnmounted(() => {
   background-position: 0 0;
   margin-bottom: var(--footer-top-margin);
 }
-.scroll-container::-webkit-scrollbar { display: none; }
+
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
 .parking-spot {
   flex: 0 0 100%;
   width: 100%;
@@ -322,9 +348,11 @@ onUnmounted(() => {
   mask-image: linear-gradient(to bottom, transparent var(--fade-starts-at), black var(--fade-ends-at));
   touch-action: pan-y;
 }
+
 .scrollable-content {
   padding-top: var(--content-top-padding);
 }
+
 .page-content {
   padding: 20px;
   box-sizing: border-box;
@@ -334,30 +362,70 @@ onUnmounted(() => {
   flex-shrink: 0;
   width: 100%;
 }
+
 .password-modal-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8);
-  display: flex; justify-content: center; align-items: center; z-index: 1300; backdrop-filter: blur(5px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1300;
+  backdrop-filter: blur(5px);
 }
+
 .password-modal {
-  background: #1a1a1a; padding: 2rem 2.5rem; border-radius: 12px; text-align: center;
-  border: 2px solid rgb(99, 151, 101); box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+  background: #1a1a1a;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 2px solid rgb(99, 151, 101);
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
 }
+
 .password-input-wrapper {
   position: relative;
   display: flex;
   align-items: center;
   width: 100%;
 }
+
 .password-modal input {
-  background-color: #333; border: 2px solid #555; color: #fff; padding: 0.75rem; border-radius: 6px;
-  text-align: center; font-size: 1.1rem; margin: 1rem 0; width: 100%; box-sizing: border-box;
+  background-color: #333;
+  border: 2px solid #555;
+  color: #fff;
+  padding: 0.75rem;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 1.1rem;
+  margin: 1rem 0;
+  width: 100%;
+  box-sizing: border-box;
 }
-.modal-buttons { display: flex; gap: 1rem; justify-content: center; }
+
+.modal-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
 .password-modal button {
-  background: rgb(99, 151, 101); border: none; color: #fff; padding: 0.75rem 1.5rem;
-  border-radius: 6px; cursor: pointer; font-weight: bold;
+  background: rgb(99, 151, 101);
+  border: none;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
 }
-.password-modal button.cancel-btn { background: #444; }
+
+.password-modal button.cancel-btn {
+  background: #444;
+}
+
 .toggle-password {
   position: absolute;
   right: 10px;
@@ -372,6 +440,7 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
 }
+
 .toggle-password i {
   color: #b5e9eb;
   font-size: 1rem;
@@ -383,26 +452,62 @@ onUnmounted(() => {
 }
 
 .arrow {
-  position: fixed; top: 55%; transform: translateY(-50%); z-index: 70; background-color: rgba(0, 0, 0, 0.3);
-  width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; user-select: none; opacity: 0.5;
+  position: fixed;
+  top: 55%;
+  transform: translateY(-50%);
+  z-index: 70;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  opacity: 0.5;
 }
-.arrow svg { fill: white; width: 30px; height: 30px; }
-.arrow:hover { opacity: 1; background-color: rgba(0, 0, 0, 0.5); }
-.arrow.left { left: 20px; }
-.arrow.right { right: 20px; }
+
+.arrow svg {
+  fill: white;
+  width: 30px;
+  height: 30px;
+}
+
+.arrow:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.arrow.left {
+  left: 20px;
+}
+
+.arrow.right {
+  right: 20px;
+}
 
 @media (max-width: 980px) {
+
   .hamburger-button,
-  .hamburger-button .hamburger-icon { z-index: 20050; }
-  .clickable-area-right-block { z-index: 1800; }
-  .clickable-area-right-secret { z-index: 1400; }
+  .hamburger-button .hamburger-icon {
+    z-index: 20050;
+  }
+
+  .clickable-area-right-block {
+    z-index: 1800;
+  }
+
+  .clickable-area-right-secret {
+    z-index: 1400;
+  }
 
   .clickable-area-right-block {
     right: 12%;
     width: 18vw;
     height: 90%;
   }
+
   .clickable-area-right-secret {
     right: 12%;
     width: 18vw;
@@ -414,11 +519,16 @@ onUnmounted(() => {
   :deep(.top-nav) {
     padding-top: 1vh;
   }
-  .site-container { --content-top-padding: 15vh; }
+
+  .site-container {
+    --content-top-padding: 15vh;
+  }
+
   .wheel-stop-item img {
     transform: rotate(-0.5deg) scaleY(1.5) translateY(-1vh);
     transform-origin: top center;
   }
+
   .parking-spot {
     background-size: 60% 20%;
     background-position: center center;
@@ -426,16 +536,22 @@ onUnmounted(() => {
 }
 
 @media (max-width: 660px) {
-  .site-container { --content-top-padding: 10vh; }
-   .wheel-stop-item img {
+  .site-container {
+    --content-top-padding: 10vh;
+  }
+
+  .wheel-stop-item img {
     transform: rotate(-0.5deg) scaleY(1.8) translateY(-1vh);
     transform-origin: top center;
   }
 }
 
 @media (max-width: 460px) {
-  .site-container { --content-top-padding: 10vh; }
-   .wheel-stop-item img {
+  .site-container {
+    --content-top-padding: 10vh;
+  }
+
+  .wheel-stop-item img {
     transform: rotate(-0.5deg) scaleY(1.9) translateY(-1vh);
     transform-origin: top center;
   }

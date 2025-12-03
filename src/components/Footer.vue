@@ -89,7 +89,7 @@
     </div>
 
     <div class="footer-section footer-bookings" aria-label="Booking information">
-      <a href="/epk" target="_blank" aria-label="Booking / EPK">
+      <a href="/epk" aria-label="Booking / EPK">
         <i class="fas fa-file-alt"></i>
         <span class="link-text">Booking / EPK</span>
       </a>

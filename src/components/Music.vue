@@ -1,7 +1,7 @@
 <template>
   <div class="page-content music-page">
     <section class="release single-release-container">
-      <h2 class="release-title release-title--single">The Fishes and the Beetles - Single</h2>
+      <h2 class="release-title release-title--single">The Fish and the Beetles - Single</h2>
       <p class="release-date release-date--single">November 25, 2025</p>
 
       <div
@@ -11,10 +11,10 @@
         @click.stop="handleSingleClick"
       >
         <div class="album-card-front">
-          <img :src="singleCover" alt="The Fishes and the Beetles Single Art" class="album-art" />
+          <img :src="singleCover" alt="The Fish and the Beetles Single Art" class="album-art" />
           <div class="album-hover-overlay" :class="{ 'show-overlay': singleShowOverlay }">
             <p class="single-bio">
-              The Fishes and the Beetles is our first song born on the stage and then raised in the stu. In the face of global mismanagement and injustice, there is an odd comfort in knowing life will continue on, even if we are unable to be there. The song is meant to serve as a unifying rallying cry, one that hopes to reorder our social priorities as wholistically humanitarian. It is intended to celebrate the strength of the biological world and humanity's place within it.
+              The Fish and the Beetles is our first song born on the stage and then raised in the stu. In the face of global mismanagement and injustice, there is an odd comfort in knowing life will continue on, even if we are unable to be there. The song is meant to serve as a unifying rallying cry, one that hopes to reorder our social priorities as wholistically humanitarian. It is intended to celebrate the strength of the biological world and humanity's place within it.
             </p>
           </div>
         </div>
@@ -27,7 +27,7 @@
     </section>
 
     <section class="release album-release-container">
-      <h2 class="release-title release-title--album">Year of the Dragon 3</h2>
+      <h2 class="release-title release-title--album">Year of the Dragon 3 - Album</h2>
       <p class="release-date release-date--album">January 28, 2025</p>
 
       <div
