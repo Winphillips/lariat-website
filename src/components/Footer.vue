@@ -89,11 +89,11 @@
     </div>
 
     <div class="footer-section footer-bookings" aria-label="Booking information">
-      <a href="/epk" aria-label="Booking / EPK">
-        <i class="fas fa-file-alt"></i>
-        <span class="link-text">Booking / EPK</span>
-      </a>
-    </div>
+  <router-link to="/epk" aria-label="Booking / EPK">
+    <i class="fas fa-file-alt"></i>
+    <span class="link-text">Booking / EPK</span>
+  </router-link>
+</div>
 
     <div class="footer-section footer-legal">
       <a href="/legal/privacy-policy.html" target="_blank" rel="noopener noreferrer" aria-label="Privacy Policy">Privacy Policy</a>
