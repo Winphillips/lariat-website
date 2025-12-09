@@ -2,28 +2,25 @@
   <div class="site-container">
     <header class="site-header"></header>
     <TopNav :currentSection="currentSection" @navigate="scrollTo" />
-
     <div class="wheel-stops-track" :style="{ transform: `translateX(-${wheelStopOffset}px)` }">
-      <div class="wheel-stop-item ws-1">
-        <img src="@/assets/wheelstop1.webp" alt="Shows Parking Stop" />
-      </div>
-      <div class="wheel-stop-item ws-2">
-        <img src="@/assets/wheelstop2.webp" alt="Music Parking Stop" />
-      </div>
+      <div class="wheel-stop-item ws-1"><img src="@/assets/wheelstop1.webp" alt="Shows Parking Stop" /></div>
+      <div class="wheel-stop-item ws-2"><img src="@/assets/wheelstop2.webp" alt="Music Parking Stop" /></div>
       <div class="wheel-stop-item ws-3 interactive-item">
         <img src="@/assets/wheelstop3.webp" alt="Lariat Parking Stop" class="wheelstop-base" />
-        <img v-if="isBlockVisible" src="@/assets/wheelstop3block.webp" alt="Interactive Block" class="wheelstop-block"
-          :class="{ shake: isShaking }" />
+        <img v-if="isBlockVisible" src="@/assets/wheelstop3block.webp" alt="Interactive Block" class="wheelstop-block" :class="{ shake: isShaking }" />
         <div v-if="isBlockVisible" class="clickable-area-right-block" @click.stop="handleBlockClick"></div>
         <div class="clickable-area-right-secret" @click.stop="openSecretPagePrompt"></div>
       </div>
-      <div class="wheel-stop-item ws-4">
-        <img src="@/assets/wheelstop4.webp" alt="Store Parking Stop" />
-      </div>
+      <div class="wheel-stop-item ws-4"><img src="@/assets/wheelstop4.webp" alt="Store Parking Stop" /></div>
     </div>
 
     <div ref="scrollContainer" class="scroll-container">
-      <section class="parking-spot" v-for="(spot, index) in spots" :key="index">
+      <section
+        class="parking-spot"
+        v-for="(spot, index) in spots"
+        :key="index"
+        :style="{ backgroundImage: `url(${bgImages[index]})` }"
+      >
         <div class="scrollable-content">
           <div class="page-content">
             <component :is="spot.component" :isActive="currentSection === index" />
@@ -32,9 +29,7 @@
       </section>
     </div>
 
-    <footer class="site-footer">
-      <Footer />
-    </footer>
+    <footer class="site-footer"><Footer /></footer>
 
     <div v-if="showPasswordModal" class="password-modal-overlay" @click.self="showPasswordModal = false">
       <div class="password-modal">
@@ -55,40 +50,40 @@
     </div>
 
     <div class="arrow left" v-show="currentSection > 0 && isMobile" @click="scrollTo(currentSection - 1)">
-      <svg viewBox="0 0 24 24">
-        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
-      </svg>
+      <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" /></svg>
     </div>
-    <div class="arrow right" v-show="currentSection < spots.length - 1 && isMobile"
-      @click="scrollTo(currentSection + 1)">
-      <svg viewBox="0 0 24 24">
-        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-      </svg>
+    <div class="arrow right" v-show="currentSection < spots.length - 1 && isMobile" @click="scrollTo(currentSection + 1)">
+      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" /></svg>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick, shallowRef } from 'vue';
-import { useRouter } from "vue-router";
+import { ref, onMounted, onUnmounted, nextTick, shallowRef, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import Footer from '@/components/Footer.vue';
 import TopNav from '@/components/TopNav.vue';
 import Shows from '@/components/Shows.vue';
 import Music from '@/components/Music.vue';
 import Landing from '@/components/Landing.vue';
 import Store from '@/components/Store.vue';
+import bg0 from '@/assets/parkinglot_01.webp';
+import bg1 from '@/assets/parkinglot_02.webp';
+import bg2 from '@/assets/parkinglot_03.webp';
+import bg3 from '@/assets/parkinglot_04.webp';
 
+const bgImages = [bg0, bg1, bg2, bg3];
 const spots = shallowRef([{ component: Shows }, { component: Music }, { component: Landing }, { component: Store }]);
 const scrollContainer = ref<HTMLElement | null>(null);
 const currentSection = ref(2);
 const isMobile = ref(window.innerWidth <= 800);
 const router = useRouter();
 const wheelStopOffset = ref(0);
-
-// Wheel stop 3 animations
 const blockClickCount = ref(0);
 const isBlockVisible = ref(true);
 const isShaking = ref(false);
+let ticking = false;
+let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const handleBlockClick = () => {
   if (!isBlockVisible.value) return;
@@ -100,24 +95,19 @@ const handleBlockClick = () => {
   }
 };
 
-// ---------------------PASSWORD---------------------------
 const showPasswordModal = ref(false);
 const passwordInput = ref('');
 const passwordError = ref('');
 const SECRET_PASSWORD = 'yotd3';
-
 const openSecretPagePrompt = () => {
   passwordInput.value = '';
   passwordError.value = '';
   showPasswordModal.value = true;
 };
-
 const passwordFieldType = ref<'password' | 'text'>('password');
-
 const togglePasswordVisibility = () => {
   passwordFieldType.value = passwordFieldType.value === 'password' ? 'text' : 'password';
 };
-
 const checkPassword = () => {
   if (passwordInput.value.toLowerCase() === SECRET_PASSWORD) {
     showPasswordModal.value = false;
@@ -135,24 +125,52 @@ const scrollTo = (index: number) => {
   }
 };
 
-const handleScroll = () => {
+const updateOnFrame = () => {
   if (!scrollContainer.value) return;
   const { scrollLeft, clientWidth } = scrollContainer.value;
-  scrollContainer.value.style.backgroundPositionX = `-${scrollLeft}px`;
   wheelStopOffset.value = scrollLeft;
-
   const idx = Math.round(scrollLeft / clientWidth);
   if (currentSection.value !== idx) currentSection.value = idx;
 };
 
-const onResize = () => {
-  isMobile.value = window.innerWidth <= 800;
-  if (scrollContainer.value) {
-    const newScrollLeft = currentSection.value * scrollContainer.value.clientWidth;
-    scrollContainer.value.scrollLeft = newScrollLeft;
-    handleScroll();
+const handleScroll = () => {
+  if (!ticking) {
+    ticking = true;
+    requestAnimationFrame(() => {
+      updateOnFrame();
+      ticking = false;
+    });
   }
 };
+
+const onResize = () => {
+  isMobile.value = window.innerWidth <= 800;
+  if (resizeTimeout) clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    if (scrollContainer.value) {
+      const newScrollLeft = currentSection.value * scrollContainer.value.clientWidth;
+      scrollContainer.value.scrollLeft = newScrollLeft;
+      updateOnFrame();
+    }
+  }, 120);
+};
+
+const preloadImage = (url: string) => {
+  if (!url) return;
+  const existing = Array.from(document.head.querySelectorAll('link[rel="preload"]')).find((l) => (l as HTMLLinkElement).href === new URL(url, location.origin).href);
+  if (existing) return;
+  const l = document.createElement('link');
+  l.rel = 'preload';
+  l.as = 'image';
+  l.href = url;
+  document.head.appendChild(l);
+};
+
+watch(currentSection, (idx) => {
+  preloadImage(bgImages[idx]);
+  if (idx + 1 < bgImages.length) preloadImage(bgImages[idx + 1]);
+  if (idx - 1 >= 0) preloadImage(bgImages[idx - 1]);
+});
 
 onMounted(async () => {
   window.addEventListener('resize', onResize);
@@ -160,13 +178,16 @@ onMounted(async () => {
   if (scrollContainer.value) {
     scrollContainer.value.scrollLeft = currentSection.value * scrollContainer.value.clientWidth;
     scrollContainer.value.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    updateOnFrame();
   }
+  preloadImage(bgImages[currentSection.value]);
+  if (currentSection.value + 1 < bgImages.length) preloadImage(bgImages[currentSection.value + 1]);
 });
 
 onUnmounted(() => {
   window.removeEventListener('resize', onResize);
   if (scrollContainer.value) scrollContainer.value.removeEventListener('scroll', handleScroll);
+  if (resizeTimeout) clearTimeout(resizeTimeout);
 });
 </script>
 
@@ -179,9 +200,8 @@ onUnmounted(() => {
   --wheel-stop-top-offset: 1vh;
   --content-top-padding: 20vh;
   --footer-top-margin: 0vh;
-  --fade-starts-at: 10vh;
-  --fade-ends-at: 20vh;
   --wheel-stop-height: 22vh;
+  --spot-min-height: 150vw; 
 }
 
 .site-header {
@@ -195,7 +215,6 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
 }
-
 :deep(.top-nav) {
   position: fixed;
   top: 0;
@@ -208,13 +227,11 @@ onUnmounted(() => {
   z-index: 1200;
   pointer-events: none;
 }
-
 :deep(.top-nav a) {
   position: relative;
   z-index: 1210;
   pointer-events: auto;
 }
-
 .wheel-stops-track {
   position: fixed;
   top: var(--wheel-stop-top-offset);
@@ -224,7 +241,6 @@ onUnmounted(() => {
   height: var(--wheel-stop-height);
   z-index: 5;
 }
-
 .wheel-stop-item {
   width: 100vw;
   height: 100%;
@@ -233,7 +249,6 @@ onUnmounted(() => {
   align-items: flex-start;
   position: relative;
 }
-
 .wheel-stop-item img {
   width: 90vw;
   height: auto;
@@ -241,35 +256,19 @@ onUnmounted(() => {
   transform: rotate(-0.5deg) scaleY(1.1) translateY(-2vh);
   pointer-events: none;
 }
-
 .interactive-item .wheelstop-base,
 .interactive-item .wheelstop-block {
   position: absolute;
 }
-
 .interactive-item .wheelstop-block {
   position: absolute;
   z-index: 100;
   pointer-events: none;
   cursor: default;
 }
-
 .ws-3 {
   transform: translateY(-2.5vh);
 }
-
-.ws-3 .clickable-area-right {
-  position: absolute;
-  top: 0;
-  left: 80%;
-  width: 14%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: auto;
-  cursor: pointer;
-  background: transparent;
-}
-
 .clickable-area-right-block {
   position: absolute;
   top: 0;
@@ -281,7 +280,6 @@ onUnmounted(() => {
   background: transparent;
   cursor: pointer;
 }
-
 .clickable-area-right-secret {
   position: absolute;
   top: 0;
@@ -293,60 +291,35 @@ onUnmounted(() => {
   background: transparent;
   cursor: pointer;
 }
-
 .shake {
   animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
-
 @keyframes shake {
-
-  10%,
-  90% {
-    transform: translate3d(-1px, 0, 0) rotate(-0.5deg);
-  }
-
-  20%,
-  80% {
-    transform: translate3d(2px, 0, 0) rotate(-0.5deg);
-  }
-
-  30%,
-  50%,
-  70% {
-    transform: translate3d(-4px, 0, 0) rotate(-0.5deg);
-  }
-
-  40%,
-  60% {
-    transform: translate3d(4px, 0, 0) rotate(-0.5deg);
-  }
+  10%,90% { transform: translate3d(-1px, 0, 0) rotate(-0.5deg); }
+  20%,80% { transform: translate3d(2px, 0, 0) rotate(-0.5deg); }
+  30%,50%,70% { transform: translate3d(-4px, 0, 0) rotate(-0.5deg); }
+  40%,60% { transform: translate3d(4px, 0, 0) rotate(-0.5deg); }
 }
-
 .scroll-container {
-  flex-grow: 1;
   display: flex;
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  background-image: url("@/assets/parkinglot.webp");
-  background-size: 400vw 100%;
-  background-position: 0 0;
   margin-bottom: var(--footer-top-margin);
 }
-
-.scroll-container::-webkit-scrollbar {
-  display: none;
-}
+.scroll-container::-webkit-scrollbar { display: none; }
 
 .parking-spot {
   flex: 0 0 100%;
-  width: 100%;
+  width: 100vw;
+  min-height: var(--spot-min-height);
   scroll-snap-align: start;
-  overflow-y: auto;
-  -webkit-mask-image: linear-gradient(to bottom, transparent var(--fade-starts-at), black var(--fade-ends-at));
-  mask-image: linear-gradient(to bottom, transparent var(--fade-starts-at), black var(--fade-ends-at));
+  overflow: visible;
   touch-action: pan-y;
+  background-repeat: no-repeat;
+  background-size: 100% 100%; 
+  background-position: center top;
 }
 
 .scrollable-content {
@@ -357,12 +330,10 @@ onUnmounted(() => {
   padding: 20px;
   box-sizing: border-box;
 }
-
 .site-footer {
   flex-shrink: 0;
   width: 100%;
 }
-
 .password-modal-overlay {
   position: fixed;
   top: 0;
@@ -376,7 +347,6 @@ onUnmounted(() => {
   z-index: 1300;
   backdrop-filter: blur(5px);
 }
-
 .password-modal {
   background: #1a1a1a;
   padding: 2rem 2.5rem;
@@ -385,14 +355,12 @@ onUnmounted(() => {
   border: 2px solid rgb(99, 151, 101);
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
 }
-
 .password-input-wrapper {
   position: relative;
   display: flex;
   align-items: center;
   width: 100%;
 }
-
 .password-modal input {
   background-color: #333;
   border: 2px solid #555;
@@ -405,13 +373,11 @@ onUnmounted(() => {
   width: 100%;
   box-sizing: border-box;
 }
-
 .modal-buttons {
   display: flex;
   gap: 1rem;
   justify-content: center;
 }
-
 .password-modal button {
   background: rgb(99, 151, 101);
   border: none;
@@ -421,11 +387,7 @@ onUnmounted(() => {
   cursor: pointer;
   font-weight: bold;
 }
-
-.password-modal button.cancel-btn {
-  background: #444;
-}
-
+.password-modal button.cancel-btn { background: #444; }
 .toggle-password {
   position: absolute;
   right: 10px;
@@ -440,17 +402,12 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
 }
-
 .toggle-password i {
   color: #b5e9eb;
   font-size: 1rem;
   transition: color 0.2s ease;
 }
-
-.toggle-password:hover i {
-  color: #fff;
-}
-
+.toggle-password:hover i { color: #fff; }
 .arrow {
   position: fixed;
   top: 55%;
@@ -467,93 +424,27 @@ onUnmounted(() => {
   user-select: none;
   opacity: 0.5;
 }
+.arrow svg { fill: white; width: 30px; height: 30px; }
+.arrow:hover { opacity: 1; background-color: rgba(0, 0, 0, 0.5); }
+.arrow.left { left: 20px; }
+.arrow.right { right: 20px; }
 
-.arrow svg {
-  fill: white;
-  width: 30px;
-  height: 30px;
-}
-
-.arrow:hover {
-  opacity: 1;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.arrow.left {
-  left: 20px;
-}
-
-.arrow.right {
-  right: 20px;
-}
-
-@media (max-width: 980px) {
-
-  .hamburger-button,
-  .hamburger-button .hamburger-icon {
-    z-index: 20050;
+@media (max-width: 850px) {
+  .site-container { 
+    --content-top-padding: 15vh; 
+    --spot-min-height: 100vw;
   }
-
-  .clickable-area-right-block {
-    z-index: 1800;
-  }
-
-  .clickable-area-right-secret {
-    z-index: 1400;
-  }
-
-  .clickable-area-right-block {
-    right: 12%;
-    width: 18vw;
-    height: 90%;
-  }
-
-  .clickable-area-right-secret {
-    right: 12%;
-    width: 18vw;
-    height: 90%;
-  }
-}
-
-@media (max-width: 800px) {
-  :deep(.top-nav) {
-    padding-top: 1vh;
-  }
-
-  .site-container {
-    --content-top-padding: 15vh;
-  }
-
-  .wheel-stop-item img {
-    transform: rotate(-0.5deg) scaleY(1.5) translateY(-1vh);
-    transform-origin: top center;
-  }
-
-  .parking-spot {
-    background-size: 60% 20%;
-    background-position: center center;
-  }
+  
+  :deep(.top-nav) { padding-top: 1vh; }
+  .wheel-stop-item img { transform: rotate(-0.5deg) scaleY(1.5) translateY(-1vh); transform-origin: top center; }
 }
 
 @media (max-width: 660px) {
-  .site-container {
-    --content-top-padding: 10vh;
-  }
-
-  .wheel-stop-item img {
-    transform: rotate(-0.5deg) scaleY(1.8) translateY(-1vh);
-    transform-origin: top center;
-  }
+  .site-container { --content-top-padding: 10vh; }
+  .wheel-stop-item img { transform: rotate(-0.5deg) scaleY(1.8) translateY(-1vh); transform-origin: top center; }
 }
-
 @media (max-width: 460px) {
-  .site-container {
-    --content-top-padding: 10vh;
-  }
-
-  .wheel-stop-item img {
-    transform: rotate(-0.5deg) scaleY(1.9) translateY(-1vh);
-    transform-origin: top center;
-  }
+  .site-container { --content-top-padding: 10vh; }
+  .wheel-stop-item img { transform: rotate(-0.5deg) scaleY(1.9) translateY(-1vh); transform-origin: top center; }
 }
 </style>
