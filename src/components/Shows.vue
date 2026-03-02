@@ -12,7 +12,7 @@
           <div class="show-date">{{ show.date }}</div>
           <div class="show-venue">
             <a
-              :href="`https://www.google.com/maps/search/?api=1&query=$${encodeURIComponent(show.coords)}`"
+              :href="`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(show.coords)}`"
               target="_blank"
               class="venue-link"
               rel="noopener noreferrer"
@@ -66,78 +66,23 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import Fireflies from "@/components/Fireflies.vue";
+import { getShows, type Show } from "@/services/showService";
 
-const props = withDefaults(defineProps<{
+defineOptions({
+  name: "ShowsSection",
+});
+
+withDefaults(defineProps<{
   isActive?: boolean;
 }>(), {
   isActive: false
 });
 
-interface Show {
-  date: string;
-  doors: string;
-  showTime: string;
-  venue: string;
-  city: string;
-  tickets: string;
-  coords: string;
-  price: string;
-  with: string;
-}
-
 const shows = ref<Show[]>([]);
-const sheetURL =
-  "https://docs.google.com/spreadsheets/d/1ZBKK2wc7HDZ2y7QtMg6OZ4rVJaHKNpAyy1V8hPc7QoQ/gviz/tq?tqx=out:json&nocache=" + new Date().getTime();
-
-
-const formatDate = (raw: string) => {
-  const match = raw.match(/Date\((\d+),(\d+),(\d+)\)/);
-  if (!match) return raw;
-  const year = parseInt(match[1]);
-  const month = parseInt(match[2]) + 1;
-  const day = parseInt(match[3]);
-  return `${month.toString().padStart(2, "0")}/${day
-    .toString()
-    .padStart(2, "0")}/${year}`;
-};
-
-const formatTime = (raw: string) => {
-  const match = raw.match(/Date\(1899,11,30,(\d+),(\d+)/);
-  if (!match) return raw;
-  let hours = parseInt(match[1]);
-  const minutes = match[2].padStart(2, "0");
-  const ampm = hours >= 12 ? "PM" : "AM";
-  hours = hours % 12 || 12;
-  return `${hours}:${minutes} ${ampm}`;
-};
-
-const parseGviz = (text: string) => {
-  const start = text.indexOf("{");
-  const end = text.lastIndexOf("}");
-  if (start === -1 || end === -1) throw new Error("gviz JSON not found");
-  return JSON.parse(text.slice(start, end + 1));
-};
 
 const loadShows = async () => {
   try {
-    const res = await fetch(sheetURL);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const text = await res.text();
-    const json = parseGviz(text);
-    shows.value = json.table.rows.map((row: any) => {
-      const cells = row.c.map((cell: any) => (cell ? cell.v : ""));
-      return {
-        date: formatDate(cells[0]),
-        doors: formatTime(cells[1]),
-        showTime: formatTime(cells[2]),
-        venue: cells[3],
-        city: cells[4],
-        tickets: cells[5],
-        coords: cells[6],
-        price: cells[7],
-        with: cells[8],
-      } as Show;
-    });
+    shows.value = await getShows();
   } catch (err) {
     console.error("Failed to load shows:", err);
     shows.value = [];

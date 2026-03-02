@@ -43,7 +43,9 @@
         </div>
         <div class="modal-buttons">
           <button @click="showPasswordModal = false" class="cancel-btn">Cancel</button>
-          <button @click="checkPassword">Enter</button>
+          <button @click="checkPassword" :disabled="isCheckingSecret">
+            {{ isCheckingSecret ? 'Checking...' : 'Enter' }}
+          </button>
         </div>
         <p v-if="passwordError" class="error-message">{{ passwordError }}</p>
       </div>
@@ -71,9 +73,16 @@ import bg0 from '@/assets/parkinglot_01.webp';
 import bg1 from '@/assets/parkinglot_02.webp';
 import bg2 from '@/assets/parkinglot_03.webp';
 import bg3 from '@/assets/parkinglot_04.webp';
+import {
+  getSecretPassword,
+  grantSecretAccess,
+  primeSecretPasswordCache
+} from '@/services/secretAccessService';
+import { trackSectionView } from '@/services/analytics';
 
 const bgImages = [bg0, bg1, bg2, bg3];
 const spots = shallowRef([{ component: Shows }, { component: Music }, { component: Landing }, { component: Store }]);
+const sectionNames = ['shows', 'music', 'home', 'store'] as const;
 const scrollContainer = ref<HTMLElement | null>(null);
 const currentSection = ref(2);
 const isMobile = ref(window.innerWidth <= 800);
@@ -98,24 +107,50 @@ const handleBlockClick = () => {
 const showPasswordModal = ref(false);
 const passwordInput = ref('');
 const passwordError = ref('');
-const SECRET_PASSWORD = 'yotd3';
+const isCheckingSecret = ref(false);
 const openSecretPagePrompt = () => {
   passwordInput.value = '';
   passwordError.value = '';
+  passwordFieldType.value = 'password';
   showPasswordModal.value = true;
+  primeSecretPasswordCache();
 };
 const passwordFieldType = ref<'password' | 'text'>('password');
 const togglePasswordVisibility = () => {
   passwordFieldType.value = passwordFieldType.value === 'password' ? 'text' : 'password';
 };
-const checkPassword = () => {
-  if (passwordInput.value.toLowerCase() === SECRET_PASSWORD) {
-    showPasswordModal.value = false;
-    sessionStorage.setItem('isAuthenticated', 'true');
-    router.push('/secret-music');
-  } else {
-    passwordError.value = 'Incorrect Password';
-    setTimeout(() => { passwordError.value = ''; }, 2000);
+const setTransientPasswordError = (message: string) => {
+  passwordError.value = message;
+  setTimeout(() => { passwordError.value = ''; }, 2000);
+};
+const checkPassword = async () => {
+  if (isCheckingSecret.value) {
+    return;
+  }
+
+  isCheckingSecret.value = true;
+
+  try {
+    const secretPassword = await getSecretPassword();
+
+    if (!secretPassword) {
+      setTransientPasswordError('Secret page unavailable');
+      return;
+    }
+
+    if (passwordInput.value.trim().toLowerCase() === secretPassword.trim().toLowerCase()) {
+      showPasswordModal.value = false;
+      grantSecretAccess();
+      router.push('/secret-music');
+      return;
+    }
+
+    setTransientPasswordError('Incorrect Password');
+  } catch (error) {
+    console.error('Failed to load secret access password:', error);
+    setTransientPasswordError('Secret page unavailable');
+  } finally {
+    isCheckingSecret.value = false;
   }
 };
 
@@ -170,7 +205,11 @@ watch(currentSection, (idx) => {
   preloadImage(bgImages[idx]);
   if (idx + 1 < bgImages.length) preloadImage(bgImages[idx + 1]);
   if (idx - 1 >= 0) preloadImage(bgImages[idx - 1]);
-});
+  const sectionName = sectionNames[idx];
+  if (sectionName) {
+    trackSectionView(sectionName, idx);
+  }
+}, { immediate: true });
 
 onMounted(async () => {
   window.addEventListener('resize', onResize);

@@ -11,7 +11,7 @@
       <ul class="song-list">
         <li v-for="song in songs" :key="song.title" class="song-item">
           <span class="song-title">{{ song.title }}</span>
-          <audio controls :src="song.url"></audio>
+          <audio controls preload="none" controlsList="nodownload" :src="song.url"></audio>
         </li>
       </ul>
     </main>
@@ -20,21 +20,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import Footer from '@/components/Footer.vue';
+import { secretTracks as songs } from "@/data/secretTracks";
 
-interface Song {
-  title: string;
-  url: string;
-}
-
-// SONGS
-const songs = ref<Song[]>([
-  { title: "Stomp Me Out - Alt Demo", url: "/audio/Stomp Me Out - Alt.wav" },
-  { title: "Cut from Year of the Dragon 3 - 'Prometheus Demo'", url: "/audio/Prometheus.wav" },
-  { title: "Unreleased beat we made in one night in like 2019 - 'Elysium Alps'", url: "/audio/Elysium Alps.wav" },
-  { title: "Mushroom Cloud Parade - Live from \"The Garden Room\" Oct 19 2025", url: "/audio/MCPLive.wav" },
-]);
+defineOptions({
+  name: "SecretPage",
+});
 </script>
 
 <style scoped>
