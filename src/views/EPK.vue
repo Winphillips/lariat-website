@@ -134,6 +134,17 @@
     </iframe>
   </div>
 
+  <div class="full-video-wrapper">
+    <iframe
+      src="https://www.youtube.com/embed/rsvsgJ-1g8g?si=htvfXyaZ_2CxquYf"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen>
+    </iframe>
+  </div>
+
   <div class="video-grid">
     <div class="video-item">
       <div class="video-wrapper short-ratio">
