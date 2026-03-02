@@ -143,15 +143,6 @@
             class="newsletter-form-shell"
             :class="{ 'is-ready': newsletterMounted }"
           ></div>
-
-          <button
-            v-if="hasPopupNewsletter"
-            type="button"
-            class="newsletter-popup-link"
-            @click="openMailerLitePopup"
-          >
-            Open full signup form
-          </button>
         </div>
       </transition>
     </section>
@@ -198,8 +189,7 @@ const newsletterCopy =
   "Updates, news, exclusives, and more probably.";
 
 const hasEmbeddedNewsletter = Boolean(mailerLiteAccountId && mailerLiteFormId);
-const hasPopupNewsletter = Boolean(mailerLiteAccountId && mailerLiteFormId);
-const showNewsletter = computed(() => hasEmbeddedNewsletter || hasPopupNewsletter);
+const showNewsletter = computed(() => hasEmbeddedNewsletter);
 const NEWSLETTER_MIN_LOADING_MS = 900;
 
 let newsletterSeen = false;
@@ -463,22 +453,6 @@ const mountMailerLiteForm = async () => {
     }
 
     isNewsletterLoading.value = false;
-  }
-};
-
-const openMailerLitePopup = async () => {
-  if (!hasPopupNewsletter) {
-    return;
-  }
-
-  try {
-    await ensureMailerLiteReady();
-    window.ml?.("show", mailerLiteFormId, true);
-    trackEvent("newsletter_popup_open", {
-      provider: "mailerlite",
-    });
-  } catch (error) {
-    console.error("Failed to open MailerLite popup:", error);
   }
 };
 
@@ -785,26 +759,6 @@ footer {
 
 .newsletter-form-shell:not(.is-ready) {
   min-height: 5.2rem;
-}
-
-.newsletter-popup-link {
-  display: inline-block;
-  margin-top: 0.45rem;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: rgb(99, 151, 101);
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.82rem;
-  text-decoration: underline;
-  text-underline-offset: 0.16em;
-  cursor: pointer;
-}
-
-.newsletter-popup-link:hover {
-  color: rgba(118, 174, 120, 0.98);
-  transform: none;
-  text-decoration: underline;
 }
 
 .newsletter-form-shell :deep(form) {
