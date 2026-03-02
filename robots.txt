@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /secret-music
+
+Sitemap: https://lariat.live/sitemap.xml
