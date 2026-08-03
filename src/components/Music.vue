@@ -1,8 +1,10 @@
 <template>
   <div class="page-content music-page">
     <section class="release single-release-container">
-      <h2 class="release-title release-title--single">The Fish and the Beetles - Single</h2>
-      <p class="release-date release-date--single">November 25, 2025</p>
+      <h2 class="release-title release-title--wren">Killing of the Carolina Wren - Single</h2>
+      <p class="release-date release-date--wren">July 29, 2026</p>
+
+      
 
       <div
         class="album-card"
@@ -10,8 +12,41 @@
         @mouseleave="handleSingleMouseLeave"
         @click.stop="handleSingleClick"
       >
+
+      
+
         <div class="album-card-front">
-          <img :src="singleCover" alt="The Fish and the Beetles Single Art" class="album-art" />
+          <img :src="WrenCover" alt="Wren Art" class="album-art" />
+          <div class="album-hover-overlay" :class="{ 'show-overlay': singleShowOverlay }">
+            <p class="single-bio--wren">
+            Killing of the Carolina Wren was mostly made the day we finished YOTD3. This made for a unique feeling frozen in time we were able to build upon with time. </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="external-links">
+        <a :href="WrenStreamLink" target="_blank" rel="noopener noreferrer" class="link-btn single-btn--wren">Stream</a>
+        <a :href="WrenPurchaseLink" target="_blank" rel="noopener noreferrer" class="link-btn single-btn--wren">Purchase</a>
+      </div>
+    </section>
+
+    <section class="release single-release-container">
+      <h2 class="release-title release-title--single">The Fish and the Beetles - Single</h2>
+      <p class="release-date release-date--single">November 25, 2025</p>
+
+      
+
+      <div
+        class="album-card"
+        @mouseenter="handleSingleMouseEnter"
+        @mouseleave="handleSingleMouseLeave"
+        @click.stop="handleSingleClick"
+      >
+
+      
+
+        <div class="album-card-front">
+          <img :src="FishCover" alt="The Fish and the Beetles Single Art" class="album-art" />
           <div class="album-hover-overlay" :class="{ 'show-overlay': singleShowOverlay }">
             <p class="single-bio">
               The Fish and the Beetles is our first song born on the stage and then raised in the stu. In the face of global mismanagement and injustice, there is an odd comfort in knowing life will continue on, even if we are unable to be there. The song is meant to serve as a unifying rallying cry, one that hopes to reorder our social priorities as wholistically humanitarian. It is intended to celebrate the strength of the biological world and humanity's place within it.
@@ -21,8 +56,8 @@
       </div>
 
       <div class="external-links">
-        <a :href="singleStreamLink" target="_blank" rel="noopener noreferrer" class="link-btn single-btn">Stream</a>
-        <a :href="singlePurchaseLink" target="_blank" rel="noopener noreferrer" class="link-btn single-btn">Purchase</a>
+        <a :href="FishStreamLink" target="_blank" rel="noopener noreferrer" class="link-btn single-btn">Stream</a>
+        <a :href="FishPurchaseLink" target="_blank" rel="noopener noreferrer" class="link-btn single-btn">Purchase</a>
       </div>
     </section>
 
@@ -112,10 +147,14 @@ import bg from "@/assets/yotd3-bg.webp";
 
 const albumCover = cover;
 const albumBg = bg;
-const singleCover = "/assets/TheFishesandtheBeetles.webp";
+const FishCover = "/assets/TheFishesandtheBeetles.webp";
+const WrenCover = "/assets/Wren Art.webp";
 
-const singleStreamLink = "https://distrokid.com/hyperfollow/lariat1/the-fish-and-the-beetles";
-const singlePurchaseLink = "https://music.apple.com/us/album/the-fish-and-the-beetles-single/1848680022";
+const FishStreamLink = "https://distrokid.com/hyperfollow/lariat1/the-fish-and-the-beetles";
+const FishPurchaseLink = "https://music.apple.com/us/album/the-fish-and-the-beetles-single/1848680022";
+
+const WrenStreamLink = "https://distrokid.com/hyperfollow/lariat1/killing-of-the-carolina-wren";
+const WrenPurchaseLink = "https://music.apple.com/us/album/killing-of-the-carolina-wren-single/6789793583";
 
 const isFlipped = ref(false);
 const showOverlay = ref(false);
@@ -219,6 +258,11 @@ function handleSingleClick() {
   text-shadow: 1px 1px 2px rgba(0, 100, 203), 1px 1px 6px rgb(0, 0, 0), 1px 1px 3px rgb(0, 0, 0);
 }
 
+.release-title--wren {
+  color: rgb(169, 226, 245);
+  text-shadow: 1px 1px 2px rgb(87, 49, 38), 1px 1px 6px rgb(0, 0, 0), 1px 1px 3px rgb(0, 0, 0);
+}
+
 .release-title--album {
   color: #7bc8af;
 }
@@ -226,6 +270,11 @@ function handleSingleClick() {
 .release-date--single {
   color: rgb(99, 151, 101);
   text-shadow: 1px 1px 2px rgba(0, 100, 203), 1px 1px 6px rgb(0, 0, 0), 1px 1px 3px rgb(0, 0, 0);
+}
+
+.release-date--wren {
+  color: rgb(169, 226, 245);
+  text-shadow: 1px 1px 2px rgb(87, 49, 38), 1px 1px 6px rgb(0, 0, 0), 1px 1px 3px rgb(0, 0, 0);
 }
 
 .release-date--album {
@@ -350,6 +399,18 @@ function handleSingleClick() {
   text-shadow: 1px 1px 2px rgba(0, 100, 203);
 }
 
+.single-bio--wren {
+  font-family: 'New Rocker', sans-serif;
+  color: rgb(169, 226, 245);
+  text-shadow: 1px 1px 2px rgb(87, 49, 38), 1px 1px 6px rgb(0, 0, 0), 1px 1px 3px rgb(0, 0, 0);
+  font-size: clamp(1.05rem, 2.8vw, 1.4rem);
+  margin: 0;
+  padding: 0 1rem;
+  line-height: 1.4;
+  max-height: 80%;
+  overflow-y: auto;
+}
+
 .tracklist {
   color: #7bc8afff;
   list-style-position: inside;
@@ -465,6 +526,45 @@ function handleSingleClick() {
 .single-btn:hover {
   background-color: rgb(99, 151, 101);
   color: #111;
+}
+
+.link-btn--wren {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  text-decoration: none;
+  text-shadow: none;
+  transition: all 0.2s ease;
+  font-family: 'New Rocker', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background-color: transparent;
+  color: rgb(169, 226, 245);
+  border: 2px solid rgb(196, 77, 2);
+  font-weight: normal;
+  font-size: clamp(1rem, 3vw, 1.1rem);
+  padding: 0.5em 1.25em;
+  height: 44px;
+  line-height: 1;
+}
+
+.link-btn--wren:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(157, 178, 255, 0.55);
+  background-color: rgb(169, 226, 245);
+  color: rgb(196, 77, 2);
+}
+
+.single-btn--wren {
+  color: rgb(169, 226, 245);
+  border-color: rgb(87, 49, 38);
+  text-shadow: 1px 1px 3px rgba(0, 100, 203);
+}
+
+.single-btn--wren:hover {
+  background-color: rgb(169, 226, 245);
+  color: rgb(87, 49, 38);
 }
 
 @media (min-width: 900px) {
